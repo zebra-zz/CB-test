@@ -1,0 +1,83 @@
+<html>
+<script>
+
+function data() {
+    this.a = new Array();
+    this.sum=0;
+    this.sum2=0;
+    this.count=0;
+
+}
+function addx(y)    // Define Method
+{
+    this.a[this.a.length] = y;
+    this.sum += y*1;
+    this.sum2 += y*y;
+    this.count += 1;
+}
+
+
+data.prototype.get_data = function() {
+    alert(this.a)
+    alert(this.sum)
+} 
+
+data.prototype.mean = function() {
+    if (this.count==0) {
+	return false 
+    }
+    return this.sum/this.count;
+} 
+
+
+data.prototype.variance = function() {
+    if (this.count<=1) {
+	return false 
+    }
+    return 1/(this.count-1)*(this.sum2-this.sum*this.sum/this.count);
+} 
+
+data.prototype.addx=addx;
+
+var obj = new data;
+function add(u) {
+    var re =/^\d+$/;
+
+    if (re.test(u)) {
+	obj.addx(u);
+    } else {
+	alert('not ok');
+    }
+show_stats();
+
+}
+function get() {
+    obj.get_data();
+}
+
+function get_stats() {
+    alert('m' + obj.mean());
+    alert('SD' + Math.sqrt(obj.variance()));
+}
+
+function show_stats() {
+    window.document.getElementById("s1").innerHTML=obj.mean();
+    window.document.getElementById("s2").innerHTML=Math.sqrt(obj.variance());
+    window.document.getElementById("s3").innerHTML=obj.count;
+
+}
+
+
+</script>
+<form>
+<input type="text" name="x"> 
+   <input type="button" value="Add" onclick="add(this.form.x.value); return false;">
+   <input type="button" value="Get" onclick="get(); return false;">
+   <input type="button" value="Get Stat" onclick="get_stats(); return false;">
+
+</form>
+<div id="s1"></div>
+<div id="s2"></div>
+<div id="s3"></div>
+
+</html>
