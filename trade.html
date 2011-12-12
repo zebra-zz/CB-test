@@ -1,0 +1,236 @@
+<html>
+
+<script>
+
+function gaussRandom() {
+    var u = 2*Math.random()-1;
+    var v = 2*Math.random()-1;
+    var r = u*u + v*v;
+    /*if outside interval [0,1] start over*/
+    if(r == 0 || r > 1) return gaussRandom();
+
+    var c = Math.sqrt(-2*Math.log(r)/r);
+    return u*c;
+
+    /* todo: optimize this algorithm by caching (v*c) 
+     * and returning next time gaussRandom() is called.
+     * left out for simplicity */
+}
+
+
+function Inst() {
+    this.sum=0;
+    this.T=0;
+    this.n=0;
+    this.s0=100;
+    this.m=500;
+    this.proc;
+    this.s=0;
+    this.name='bull';
+    this.isrunning=false;
+
+}
+var inst = new Inst;
+
+function Order() {
+  //this.buy=0;
+  this.status=1;
+}
+
+order = new Order;
+
+function Asset(saldo) {
+    this.saldo= saldo || 1000;
+    this.saldo=  this.saldo;
+    this.pos=0;
+    this.n=0;
+    this.avg=0;
+this.result=0;
+    this.trans={};
+}
+
+var err = 0;
+asset=new Asset();
+
+trans = new Array();
+trans.push({saldo:{cash:1000,cnt:1000},
+	    ins:{cash:-1000,cnt:-1000},
+	    pos:{cash:0,cnt:0}
+	   });
+
+Order.prototype.trade = function (o) {
+    if (order.status) {
+	var vol = order.volume || 1;
+	if (order.buy > o.s ) {
+	    if ( asset.saldo - vol*o.s > 0) {
+		delete order.buy;
+		asset.trans={pos:{cash:vol*o.s,cnt:vol},
+			     saldo:{cash:-vol*o.s,cnt:-vol*o.s},
+			     res:{cash:0,cnt:0}
+				   };
+		trans.push(asset.trans);
+
+		asset.saldo -= vol*o.s;
+		asset.pos += vol*o.s;
+		asset.n    += 1*vol;
+		order.status=0;
+
+} 
+	    else {
+		err=1;
+	    }
+	    
+	}
+	
+	if (order.sell < o.s) {
+	    if ( asset.n - vol >= 0 ) {
+		delete order.sell;
+		var result = vol*o.s-vol/asset.n*asset.pos;
+		asset.trans={saldo: {cash:vol*o.s,cnt:vol*o.s},
+			     pos: {cash:-vol*o.s,cnt:-1*vol},
+			     res:{cash:result,cnt:result}
+			    };
+
+		trans.push(asset.trans);
+		
+		asset.saldo += vol*o.s;
+		asset.pos  -= (asset.n) ? vol*asset.pos/asset.n :0;
+		asset.n    -= vol;
+                asset.result += result;
+		order.status=0;
+
+	    } 
+	    else { 
+		err=1;
+	    }
+    }
+    if (order.status==0) {
+
+	asset.avg  = (asset.n) ? asset.pos/asset.n : 0;
+	console.log(order);
+	show_trade(); 
+    }
+} 
+    
+    
+    
+}
+
+function show_trade() {
+    
+    var tt='';
+    var sums=0;
+    var sump=0;
+//tr =     document.getElementById('trade');
+//tr.removeChild(tr);
+tr =     document.getElementById('trade');
+u=document.createElement("ul");
+
+//    for ( var i=0; i<trans.length; ++i ){
+li=document.createElement("li");
+txt=document.createTextNode(asset.trans.saldo.cash.toFixed(2) + '|' + asset.trans.res.cash.toFixed(2));
+li.appendChild(txt);
+    u.appendChild(li);
+//	tt = tt + '|' + trans[i].saldo.toFixed(2);
+//	sums += trans[i].saldo;
+//	sump += trans[i].pos.cnt;
+//    }
+
+    tr.appendChild(u);
+
+//    document.getElementById('trade').innerHTML=tt;
+    document.getElementById('saldo').innerHTML=asset.saldo.toFixed(2);;
+    document.getElementById('n').innerHTML=asset.n;
+    document.getElementById('pos').innerHTML=asset.pos.toFixed(2);
+    document.getElementById('avg').innerHTML=asset.avg.toFixed(2);
+    document.getElementById('avg_t').innerHTML=asset.avg.toFixed(2);
+    if (order.status==0) {
+	document.getElementById('order').innerHTML='';
+    }
+    if (err) {
+	document.getElementById('error').innerHTML='EEEEEERRRROOORRR';
+    } else {
+	document.getElementById('error').innerHTML='';   
+ }
+}
+
+
+
+
+function put(o,typ) {
+    delete order.sell;
+    delete order.buy;
+    err=0;
+    order.status=1;
+    order.err=0;
+    order[typ] = o.price.value;
+    order.volume = o.volume.value;
+    console.log(order);
+    console.log('ERR' + err);
+
+    document.getElementById('order').innerHTML=((typ=='buy') ? 'BUY' : 'SELL') + ' ' + o.price.value;
+}
+
+function doit(o) {
+    var sigma= 0.01;
+    var v=gaussRandom();
+    o.sum += sigma*v;
+    o.s = o.s0*Math.exp(o.sum);
+    order.trade(o);
+    //    console.log(order);
+
+    o.show();
+    // Tiden t exp(1/100)
+    var t=-1*Math.log(1-Math.random())*o.m;
+    o.T += t;
+    o.n++;
+    o.proc = setTimeout(function(){doit(o)},t);
+}
+
+Inst.prototype.show = function () {
+    asset.prod = asset.n*this.s;
+    asset.ek = asset.n*this.s + asset.saldo;
+    window.document.getElementById(this.name).innerHTML=this.s.toFixed(2);
+    document.getElementById('mark').innerHTML=asset.prod.toFixed(2);
+    document.getElementById('ek').innerHTML=asset.ek.toFixed(2);
+    document.getElementById('ek_t').innerHTML=asset.ek.toFixed(2);
+    
+}
+
+function run() {
+    doit(inst);
+}
+
+function stop() {
+    clearTimeout(inst.proc);
+}
+</script>
+
+  <input type="button" value="Go" onclick="run(); return false;">
+  <input type="button" value="Stop" onclick="stop(); return false;">
+  <br>
+<form>
+  Snittp<div id="avg_t"></div>
+  EK<div id="ek_t"></div>
+  
+  <br>
+  <input type= "text" size="2" value="1" name="volume">
+  <input type= "text" size="5" value="100" name="price">
+  <input type="button" value="Buy" onclick="put(this.form,'buy'); return false;">
+  <input type="button" value="Sell" onclick="put(this.form,'sell'); return false;">
+</form>
+<div id="bull"></div>
+<div id="error"></div>
+<br>
+<div id="order"></div>
+<br>
+Saldo<div id="saldo"></div>
+N<div id="n"></div>
+Ansk<div id="pos"></div>
+Mark<div id="mark"></div>
+Snittp<div id="avg"></div>
+EK<div id="ek"></div>
+<br>
+<div id="trade"></div>
+
+</html>
