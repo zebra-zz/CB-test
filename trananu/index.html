@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Träna Nu</title>
+    <!-- good but not ideal -->
+ <meta name="viewport" content="width=device-width" />
+
+    <!-- use this line instead -->
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+
+<style type="text/css">
+/* rounded corners in safari on a div */
+div {
+    -webkit-border-radius: 10px;
+}
+/* for firefox */
+div {
+    -moz-border-radius: 10px;
+}
+/* cool shadow, but maybe not useful */
+h1 {
+    text-shadow: 2px 2px 6px black;
+}
+
+
+</style>
+<!--  <link rel="stylesheet" href="iphone.css">-->
+<link rel="apple-touch-icon" href="image.png" />
+</head>
+
+<body>
+<script>
+
+var data={111: {  1: "Uppvärmning: 5 min lättjogg/gå, (lätt tänjning 3 min) spring eller jogga 30 sekunder, gå 2min. Upprepa 3 gånger, gå/jogga 3 min",
+		  2: 'Lite Lättare träning'
+	       },
+	  211: {1:'Medel träning'
+	       },
+	  311: {1:'Svår träning'
+	       }
+	 }
+
+function go(o) {
+    if (o.niva.value == -1) {
+	alert('missing niva')
+	return false;
+    }
+    if (o.form.value == -1) {
+	alert('missing form')
+	return false;
+    }
+    if (o.tid.value == -1) {
+	alert('missing tid')
+	return false;
+    }
+    console.log(o);
+    console.log(o.niva.value);
+    console.log(data);
+    var val = o.niva.value + o.form.value + o.tid.value;
+    console.log('V= ' + val);
+    if (val in data) {
+
+	document.getElementById('txt').innerHTML = data[val]['1'];
+    } else {
+
+	alert('Missing data');
+    }
+}
+</script>
+
+<h1> Träna Nu</h1>
+
+
+
+
+<form name="trananu">
+<select name="niva">
+  <option value="-1">Välj nivå</option>
+  <option value="1">Lätt</option>
+  <option value="2">Medel</option>
+  <option value="3">Svår</option>
+</select>
+<p>
+<select name="form">
+  <option value="-1">Välj form</option>
+  <option value="1">Löpning</option>
+  <option value="2">Armar</option>
+  <option value="3">Mage</option>
+</select>
+<p>
+<select name="tid">
+  <option value="-1">Välj tid</option>
+  <option value="1">15-20 min</option>
+  <option value="2">35-40 min</option>
+  <option value="3">55-60 min</option>
+</select>
+<p>
+<input type="button" value="Go" onclick="go(this.form); return false;">
+</form>
+
+<div id="txt">
+</div>
+</body>
+</html>
