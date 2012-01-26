@@ -27,34 +27,14 @@ h1 {
 </style>
 <!--  <link rel="stylesheet" href="iphone.css">-->
 <link rel="apple-touch-icon" href="image.png" />
-</head>
 
-<body>
+<script src="data.js">
+</script>
+
 <script>
 
-var data={111: {  1: "Uppvärmning: 5 min lättjogg/gå, (lätt tänjning 3 min) spring eller jogga 30 sekunder, gå 2min. Upprepa 3 gånger, gå/jogga 3 min",
-		  2: 'Lite Lättare träning'
-	       },
-	  112: {  1: "uppvärmning: 5 min lättjogg, tänj/stretch 5 min, löpskolning 5-10min, 5x100m löpning, vila gå tillbaka till startpunkten, hopprep 10 min ,nedjogg 5 min, stretch",
-		  2: 'Lite Lättare träning'
-	       },
-	  113: {  1: "Uppvärmning: 10 min snabb gång + avlsutande 2 min jogg, 5 min tänjningar, 10 min löpskolning, 5x \"gissa 200\", bestäm en tid du vill ha på 200m och försök att pricka den, vila 5 min mellan loppen, nedjogg, stretch",
-		  2: 'Lite Lättare träning'
-	       },
 
-	  211: {1:'Medel träning'
-	       },
-	  212: {1:'Medel träning lite mer'
-	       },
-	  213: {1:'Medel träning mycket mer'
-	       },
-	  311: {1:'Svår träning'
-	       },
-	  312: {1:'Svår träning lite mer'
-	       },
-	  313: {1:'Svår träning mycket mer'
-	       }
-	 }
+var log = new Array();
 
 function go(o) {
     if (o.niva.value == -1) {
@@ -69,20 +49,79 @@ function go(o) {
 	alert('missing tid')
 	return false;
     }
-    console.log(o);
-    console.log(o.niva.value);
-    console.log(data);
+
+
+
     var val = o.niva.value + o.form.value + o.tid.value;
+    window.localStorage.setItem("status", val);
+    log.push(val);
+    window.localStorage.setItem("log", log);
     console.log('V= ' + val);
+    console.log(log);
     if (val in data) {
 	document.getElementById('txt').innerHTML = data[val]['1'];
     } 
     else {
 	alert('Missing data');
     }
+    showlogg();
+
+}
+
+function init() {
+    var val = window.localStorage.getItem("status");
+    
+    var logtxt = window.localStorage.getItem("log") || '';
+    log = logtxt.split(",");
+    console.log('LOG' + log);
+    if (val) {
+	var dd=val.split("");
+	console.log(dd);
+	set_selected('niva',dd[0]);
+	set_selected('form',dd[1]);
+	set_selected('tid',dd[2]);
+	//    alert(dd);
+
+	document.getElementById('txt').innerHTML = data[val]['1'];
+    }
+    showlogg();
+    navigator.geolocation.getCurrentPosition(function(position) {
+	var coords = position.coords;
+	document.getElementById('latlon').innerHTML = coords.latitude + ', ' + coords.longitude;
+
+    });
+}
+function set_selected(name,v) {
+    var sel = document.getElementsByName(name)[0];
+    
+    for (var i=1; i<sel.options.length; i++) {
+	if (v == sel.options[i].value) {
+	    sel.options[i].selected=true;
+	}
+    }
+    console.log(sel);
+}
+
+function showlogg() {
+    var  tt='<ul>';
+    for (var i=1; i<log.length; i++) {
+	
+	console.log(log[i]);
+	tt = tt + '<li>' + log[i];    
+    }
+    tt= tt + '</ul>';
+    console.log(tt);
+    document.getElementById('historik').innerHTML = tt;
+}
+function reset() {
+    window.localStorage.clear();
 }
 </script>
 
+</head>
+
+<body onload=init();>
+    <a href="#" onclick="reset();" >Reset</a>
 <h1> Träna Nu</h1>
 
 
@@ -112,8 +151,16 @@ function go(o) {
 <p>
 <input type="button" value="Go" onclick="go(this.form); return false;">
 </form>
-
+<h2>Rubrik</h2>
 <div id="txt">
+
+</div>
+<h3>Historik</h3>
+<div id="historik">
+
+</div>
+    <h4>Longitud, Latitude</h4>
+<div id="latlon">
 </div>
 </body>
 </html>
