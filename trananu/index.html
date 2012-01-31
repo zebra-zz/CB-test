@@ -60,8 +60,27 @@ function go(o) {
     window.localStorage.setItem("log", log);
     console.log('V= ' + val);
     console.log(log);
+    
     if (val in data) {
-	document.getElementById('txt').innerHTML = data[val]['1'];
+	console.log(data[val]);
+	aa = data[val];
+	for (ii in aa) {
+	    
+	    if (data[val][ii]['rubrik']) {
+		var myElement = document.createElement("li");
+		var newlink = document.createElement('a');
+		newlink.setAttribute('href', '#');
+		newlink.setAttribute('onclick', 'showtxt("'+ val +'","'+ ii +'")');
+		txt = document.createTextNode(data[val][ii]['rubrik']);
+
+		 newlink.appendChild(txt);
+		console.log(aa);
+		myElement.appendChild(newlink);
+		
+		document.getElementById("pass").appendChild(myElement);
+	    }
+	}
+	//document.getElementById('txt').innerHTML = 
     } 
     else {
 	alert('Missing data');
@@ -83,8 +102,8 @@ function init() {
 	set_selected('form',dd[1]);
 	set_selected('tid',dd[2]);
 	//    alert(dd);
-
-	document.getElementById('txt').innerHTML = data[val]['1'];
+	document.getElementById('txt').innerHTML = data[val]['pass2']['txt'];
+//	document.getElementById('txt').innerHTML = data[val]['1'];
     }
     showlogg();
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -118,16 +137,30 @@ function showlogg() {
 function reset() {
     window.localStorage.clear();
 }
+function showtxt(val,pass) {
+//    alert(val);
+//    alert(pass);
+    var ele = document.getElementById('main');
+    ele.style.display = "none";
+    document.getElementById('subtxt').innerHTML = data[val][pass]['txt'];
+}
+function back() {
+    var ele = document.getElementById('main');
+    ele.style.display = "block";
+    var ele1 = document.getElementById('subtext');
+    ele1.style.display = "none";
+}
 </script>
 
 </head>
 
 <body onload=init();>
     <a href="#" onclick="reset();" >Reset</a>
+    <a href="#" onclick="back();" >Back</a>
 <h1> Träna Nu</h1>
 
 
-
+<div id = "main">
 
 <form name="trananu">
 <select name="niva">
@@ -155,7 +188,11 @@ function reset() {
 </form>
 <h2>Rubrik</h2>
 <div id="txt">
-
+</div>
+<ul id="pass">
+  </ul>
+</div>
+<div id="subtxt">
 </div>
 <h3>Historik</h3>
 <div id="historik">
