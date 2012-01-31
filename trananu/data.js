@@ -1,6 +1,10 @@
-var data_sv = { 111: {  1: "Uppvärmning: 5 min lättjogg/gå, (lätt tänjning 3 min) spring eller jogga 30 sekunder, gå 2min. Upprepa 3 gånger, gå/jogga 3 min",
-		     2: 'Lite Lättare träning'
-		  },
+var data_sv = { 111: { 'ingress' : 'hej hej',
+		       'pass1'   : {'rubrik': 'Rub1',
+				    'txt'   : "Uppvärmning: 5 min lättjogg/gå, (lätt tänjning 3 min) spring eller jogga 30 sekunder, gå 2min. Upprepa 3 gånger, gå/jogga 3 min"},
+		       'pass2' : {'rubrik' : 'Rub2', 
+				  'txt'    : 'Lite Lättare träning',
+				 }
+		     },
 	     112: {  1: "uppvärmning: 5 min lättjogg, tänj/stretch 5 min, löpskolning 5-10min, 5x100m löpning, vila gå tillbaka till startpunkten, hopprep 10 min ,nedjogg 5 min, stretch",
 		     2: 'Lite Lättare träning'
 		  },
@@ -20,4 +24,4 @@ var data_sv = { 111: {  1: "Uppvärmning: 5 min lättjogg/gå, (lätt tänjning 
 		  },
 	     313: {1:'Svår träning mycket mer'
 		  }
-	   };
+	      };
