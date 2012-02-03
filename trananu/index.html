@@ -3,6 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+
 <title>Träna Nu</title>
     <!-- good but not ideal -->
 
@@ -56,14 +58,21 @@ function go(o) {
 
     var val = o.niva.value + o.form.value + o.tid.value;
     window.localStorage.setItem("status", val);
-    log.push(val);
-    window.localStorage.setItem("log", log);
-    console.log('V= ' + val);
-    console.log(log);
     
+    list_pass(val);
+
+}
+
+function list_pass(val) {
+    console.log(val);
     if (val in data) {
 	console.log(data[val]);
 	aa = data[val];
+
+	node=document.getElementById("pass");
+	while(node.firstChild) {
+	    node.removeChild(node.firstChild);
+	}
 	for (ii in aa) {
 	    
 	    if (data[val][ii]['rubrik']) {
@@ -71,7 +80,12 @@ function go(o) {
 		var newlink = document.createElement('a');
 		newlink.setAttribute('href', '#');
 		newlink.setAttribute('onclick', 'showtxt("'+ val +'","'+ ii +'")');
-		txt = document.createTextNode(data[val][ii]['rubrik']);
+
+		var klar=(any_val(val,ii)) ? 'KLAR': '';
+
+
+
+		txt = document.createTextNode(data[val][ii]['rubrik'] + ' ' + klar);
 
 		 newlink.appendChild(txt);
 		console.log(aa);
@@ -85,11 +99,14 @@ function go(o) {
     else {
 	alert('Missing data');
     }
-    showlogg();
+
 
 }
-
 function init() {
+    document.getElementById('h1').innerHTML = data['head'];
+    list_option('niva');
+    list_option('form');
+    list_option('tid');
     var val = window.localStorage.getItem("status");
     
     var logtxt = window.localStorage.getItem("log") || '';
@@ -102,15 +119,22 @@ function init() {
 	set_selected('form',dd[1]);
 	set_selected('tid',dd[2]);
 	//    alert(dd);
-	document.getElementById('txt').innerHTML = data[val]['pass2']['txt'];
+//	document.getElementById('txt').innerHTML = data[val]['pass2']['txt'];
 //	document.getElementById('txt').innerHTML = data[val]['1'];
     }
     showlogg();
+    navigator();
+
+}
+
+function navigator() {
     navigator.geolocation.getCurrentPosition(function(position) {
 	var coords = position.coords;
 	document.getElementById('latlon').innerHTML = coords.latitude + ', ' + coords.longitude;
 
     });
+
+
 }
 function set_selected(name,v) {
     var sel = document.getElementsByName(name)[0];
@@ -140,15 +164,47 @@ function reset() {
 function showtxt(val,pass) {
 //    alert(val);
 //    alert(pass);
+    var valp =  val + '|' + pass;
+    log.push(valp);
+    window.localStorage.setItem("log", log);
     var ele = document.getElementById('main');
     ele.style.display = "none";
     document.getElementById('subtxt').innerHTML = data[val][pass]['txt'];
+    var ele1 = document.getElementById('subtxt');
+    ele1.style.display = "block";
+
 }
 function back() {
     var ele = document.getElementById('main');
     ele.style.display = "block";
-    var ele1 = document.getElementById('subtext');
+    var ele1 = document.getElementById('subtxt');
     ele1.style.display = "none";
+    showlogg();
+    var val = window.localStorage.getItem("status");
+    list_pass(val);
+}
+
+function list_option(who) {
+    node=document.getElementById(who);
+    dd=data[who];
+    console.log(dd);
+    for (i in dd) {
+	ny = document.createElement('option');
+	ny.value=dd[i][0];
+	ny.text=dd[i][1];
+	node.add(ny,null)
+    }
+}
+
+function any_val(val,pass) {
+    for (var i=1; i<log.length; i++) {
+	if (log[i] == val + '|' + pass) {
+	    return true;
+	}
+
+    }
+
+return false
 }
 </script>
 
@@ -157,31 +213,21 @@ function back() {
 <body onload=init();>
     <a href="#" onclick="reset();" >Reset</a>
     <a href="#" onclick="back();" >Back</a>
-<h1> Träna Nu</h1>
+<h1 id ="h1"> Träna Nu</h1>
 
 
 <div id = "main">
 
 <form name="trananu">
-<select name="niva">
-  <option value="-1">Välj nivå</option>
-  <option value="1">Lätt</option>
-  <option value="2">Medel</option>
-  <option value="3">Svår</option>
+<select name="niva" id="niva"  data-native-menu="false" data-theme="a" data-form="ui-btn-up-a">
 </select>
 <p>
-<select name="form">
-  <option value="-1">Välj form</option>
-  <option value="1">Löpning</option>
-  <option value="2">Armar</option>
-  <option value="3">Mage</option>
+<select name="form" id = "form"  data-native-menu="false" data-theme="a" data-form="ui-btn-up-a">
+
 </select>
 <p>
-<select name="tid">
-  <option value="-1">Välj tid</option>
-  <option value="1">15-20 min</option>
-  <option value="2">35-40 min</option>
-  <option value="3">55-60 min</option>
+<select name="tid" id = "tid"  data-native-menu="false" data-theme="a" data-form="ui-btn-up-a">
+
 </select>
 <p>
 <input type="button" value="Go" onclick="go(this.form); return false;">
@@ -193,6 +239,7 @@ function back() {
   </ul>
 </div>
 <div id="subtxt">
+&nbsp;
 </div>
 <h3>Historik</h3>
 <div id="historik">
@@ -201,5 +248,6 @@ function back() {
     <h4>Longitud, Latitude</h4>
 <div id="latlon">
 </div>
+
 </body>
 </html>
