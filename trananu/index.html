@@ -33,11 +33,9 @@ h1 {
 
 <script>
 
-var lang='sv';
+var lang;
 var data={};
-if (lang=='sv') {
-data=data_sv;
-}
+
 var log = new Array();
 
 function go(o) {
@@ -103,7 +101,13 @@ function list_pass(val) {
 
 }
 function init() {
-    document.getElementById('h1').innerHTML = data['head'];
+lang='sv';
+if (lang=='sv') {
+data=data_sv;
+}
+console.log(lang);
+console.log(data);
+document.getElementById('h1').innerHTML = data['head'];
     list_option('niva');
     list_option('form');
     list_option('tid');
