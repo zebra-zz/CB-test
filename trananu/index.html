@@ -34,8 +34,8 @@ h1 {
 <!--  <link rel="stylesheet" href="iphone.css">-->
 <link rel="apple-touch-icon" href="image.png" />
 
-<!--<script src="data.js"></script>-->
-<script src="data_malin.js"></script>
+<script src="data.js"></script>
+<!--<script src="data_malin.js"></script>-->
 <script>
 
 var lang;
@@ -132,7 +132,7 @@ document.getElementById('h1').innerHTML = data['head'];
 //	document.getElementById('txt').innerHTML = data[val]['1'];
     }
     showlogg();
-    navigator();
+//    navigator();
 
 }
 
@@ -176,18 +176,16 @@ function showtxt(val,pass) {
     var valp =  val + '|' + pass;
     log.push(valp);
     window.localStorage.setItem("log", log);
-    var ele = document.getElementById('main');
-    ele.style.display = "none";
+    document.getElementById('main').style.display = "none";    
     document.getElementById('subtxt').innerHTML = data[val][pass]['txt'];
-    var ele1 = document.getElementById('subtxt');
-    ele1.style.display = "block";
+    document.getElementById('subtxt').style.display = "block";
+
 
 }
-function back() {
-    var ele = document.getElementById('main');
-    ele.style.display = "block";
-    var ele1 = document.getElementById('subtxt');
-    ele1.style.display = "none";
+function back2() {
+    document.getElementById('main').style.display = "block";    
+    document.getElementById('subtxt').style.display = "none";
+    
     showlogg();
     var val = window.localStorage.getItem("status");
     list_pass(val);
@@ -221,7 +219,7 @@ return false
 
 <body onload=init();>
     <a href="#" onclick="reset();" >Reset</a>
-    <a href="#" onclick="back();" >Back</a>
+    <a href="#" onclick="back2();" >Back</a>
 <h1 id ="h1"> Träna Nu</h1>
 
 
