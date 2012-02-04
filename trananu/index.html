@@ -3,7 +3,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-
+<link rel="stylesheet" type="text/css" href="iphone.css" media="only screen and (max-width: 480px)" />
+<link rel="stylesheet" type="text/css" href="desktop.css" media="screen and (min-width: 481px)" />
+        <!--[if IE]> 
+        <link rel="stylesheet" type="text/css" href="explorer.css" media="all" /> 
+        <![endif]-->
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="iphone.js"></script>
 
 <title>Träna Nu</title>
     <!-- good but not ideal -->
@@ -28,9 +34,8 @@ h1 {
 <!--  <link rel="stylesheet" href="iphone.css">-->
 <link rel="apple-touch-icon" href="image.png" />
 
-<script src="data.js">
-</script>
-
+<!--<script src="data.js"></script>-->
+<script src="data_malin.js"></script>
 <script>
 
 var lang;
@@ -56,7 +61,7 @@ function go(o) {
 
     var val = o.niva.value + o.form.value + o.tid.value;
     window.localStorage.setItem("status", val);
-    
+    document.getElementById('rub').innerHTML = data[val]['ingress'];
     list_pass(val);
 
 }
@@ -92,7 +97,7 @@ function list_pass(val) {
 		document.getElementById("pass").appendChild(myElement);
 	    }
 	}
-	//document.getElementById('txt').innerHTML = 
+
     } 
     else {
 	alert('Missing data');
@@ -236,9 +241,10 @@ return false
 <p>
 <input type="button" value="Go" onclick="go(this.form); return false;">
 </form>
-<h2>Rubrik</h2>
+<h2 id="rub">Rubrik</h2>
 <div id="txt">
 </div>
+
 <ul id="pass">
   </ul>
 </div>
