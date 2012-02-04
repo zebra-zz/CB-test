@@ -1,86 +1,79 @@
-/*-----------------------------
-RESET STYLES
------------------------------*/
+body {
+    background-color: #ddd; /* Background color */
+    color: #222; /* Foreground color used for text */
+    font-family: Helvetica;
+    font-size: 14px;
+    margin: 0; /* Amount of negative space around the outside of the body */
+    padding: 0; /* Amount of negative space around the inside of the body */
+}
+#header h1 {
+    margin: 0;
+    padding: 0;
+}
+#header h1 a {
+    background-color: #ccc;
+    border-bottom: 1px solid #666;
+    color: #222;
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 0;
+    text-align: center;
+    text-decoration: none;
+}
+#header ul {
+    list-style: none;
+    margin: 10px;
+    padding: 0;
+}
+#header ul li a {
+    background-color: #FFFFFF;
+    border: 1px solid #999999;
+    color: #222222;
+    display: block;
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: -1px;
+    padding: 12px 10px;
+    text-decoration: none;
+}
+#content, #sidebar {
+    padding: 10px;
+}
+#footer {
+    display: none;
+}
+#header h1 a {
+    text-shadow: 0px 1px 0px #fff;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#999));
+}
 
-html, body, form, fieldset, p, div, h1, h2, h3, h4, h5, h6{
-	margin:0;
-	padding:0;
-	-webkit-text-size-adjust:none; /* This stops the iPhone from automatically changing the size of the text when you flip the phone */
-	}
-body{
-	font-size: 62.5%; /* 62.5% means 1em = 10px */
-	}
-ul, li, ol, dl, dd, dt{
-	list-style:none;
-	padding:0;
-	margin:0;
-	}
-a{
-	text-decoration:none;
-	}
- 
-/*-----------------------------
-	SITE SPECIFIC STYLES
------------------------------*/
+#header ul li:first-child a {
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+}
+#header ul li:last-child a {
+    -webkit-border-bottom-left-radius: 8px;
+    -webkit-border-bottom-right-radius: 8px;
+}
+#header ul.hide {
+    display: none;
+}
+#header div.leftButton {
+    position: absolute;
+    top: 7px;
+    left: 6px;
+    height: 30px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    text-shadow: rgba(0,0,0,0.6) 0px -1px 0px;
+    line-height: 28px;
+    border-width: 0 8px 0 8px;
+    -webkit-border-image: url(images/button.png) 0 8 0 8;
+}
+#header div.pressed {
+    -webkit-border-image: url(images/button_clicked.png) 0 8 0 8;
+}
 
-body{
-	background:#fff000;
-	font-family: Helvetica; /* Helvetica is on the iPhone already, so you may as well take advantage */
-	color:#999;
-	}
-p{
-	font-size:12px;
-	padding-bottom:8px;
-	}
-a{
-	color:#fff000;
-	text-decoration:none;
-	}
 
-/*-----------------------------
-	HEADINGS
------------------------------*/
-
-h1{
-	display:block;
-	width:112px;
-	height:41px;
-	background-image:url(images/logo.gif);
-	text-indent:-5000px;
-	}
-
-/*-----------------------------
-	BASIC LAYOUT
------------------------------*/
-
-#page_wrapper{
-	padding-top:20px;
-	background:#000 url(images/page_background.gif) repeat-x;
-	overflow:auto;
-	}
-
-/*-----------------------------
-	ORIENTATION CLEVERNESS
------------------------------*/
-
-#content_left,
-#content_right,
-#content_normal,
-#content_flipped{
-	display:none;
-	}
-.show_normal,
-.show_flipped{
-	width:320px;
-	}
-.show_left,
-.show_right{
-	width:480px;
-	}
-
-.show_left #content_left,
-.show_right #content_right,
-.show_normal #content_normal,
-.show_flipped #content_flipped{
-	display:block;
-	}
