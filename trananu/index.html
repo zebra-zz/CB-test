@@ -28,14 +28,12 @@ div {
 h1 {
     text-shadow: 2px 2px 6px black;
 }
-
-
 </style>
 <!--  <link rel="stylesheet" href="iphone.css">-->
 <link rel="apple-touch-icon" href="image.png" />
 
-<script src="data.js"></script>
-<!--<script src="data_malin.js"></script>-->
+<!--<script src="data.js"></script>-->
+<script src="data_malin.js"></script>
 <script>
 
 var lang;
@@ -76,7 +74,7 @@ function list_pass(val) {
 	while(node.firstChild) {
 	    node.removeChild(node.firstChild);
 	}
-	for (ii in aa) {
+	for (ii in data[val]) {
 	    
 	    if (data[val][ii]['rubrik']) {
 		var myElement = document.createElement("li");
@@ -88,10 +86,10 @@ function list_pass(val) {
 
 
 
-		txt = document.createTextNode(data[val][ii]['rubrik'] + ' ' + klar);
+		txt = document.createTextNode(data[val][ii]['rubrik']);
 
 		 newlink.appendChild(txt);
-		console.log(aa);
+		console.log(data[val]);
 		myElement.appendChild(newlink);
 		
 		document.getElementById("pass").appendChild(myElement);
@@ -106,13 +104,13 @@ function list_pass(val) {
 
 }
 function init() {
-lang='sv';
-if (lang=='sv') {
-data=data_sv;
-}
-console.log(lang);
-console.log(data);
-document.getElementById('h1').innerHTML = data['head'];
+    lang='sv';
+    if (lang=='sv') {
+	data=data_sv;
+    }
+    console.log(lang);
+    console.log(data);
+    document.getElementById('h1').innerHTML = data['head'];
     list_option('niva');
     list_option('form');
     list_option('tid');
@@ -132,22 +130,19 @@ document.getElementById('h1').innerHTML = data['head'];
 //	document.getElementById('txt').innerHTML = data[val]['1'];
     }
     showlogg();
-//    navigator();
-
+    //    navigator();
 }
 
 function navigator() {
     navigator.geolocation.getCurrentPosition(function(position) {
 	var coords = position.coords;
 	document.getElementById('latlon').innerHTML = coords.latitude + ', ' + coords.longitude;
-
     });
 
 
 }
 function set_selected(name,v) {
-    var sel = document.getElementsByName(name)[0];
-    
+    var sel = document.getElementsByName(name)[0];    
     for (var i=1; i<sel.options.length; i++) {
 	if (v == sel.options[i].value) {
 	    sel.options[i].selected=true;
@@ -158,29 +153,51 @@ function set_selected(name,v) {
 
 function showlogg() {
     var  tt='<ul>';
+	node=document.getElementById("historik");
+	while(node.firstChild) {
+	    node.removeChild(node.firstChild);
+	}
     for (var i=1; i<log.length; i++) {
-	
+	dd = log[i].split("|");
 	console.log(log[i]);
-	tt = tt + '<li>' + log[i];    
+	add_link('historik',dd[0],dd[1]);
+
     }
-    tt= tt + '</ul>';
-    console.log(tt);
-    document.getElementById('historik').innerHTML = tt;
+//    tt= tt + '</ul>';
+//    console.log(tt);
+
+//    document.getElementById('historik').innerHTML = tt;
 }
+
+function add_link(id,val,pass) {
+	var myElement = document.createElement("li");
+	var newlink = document.createElement('a');
+	newlink.setAttribute('href', '#');
+	newlink.setAttribute('onclick', 'showtxt("'+ val +'","'+ pass +'")');
+	
+	
+	txt = document.createTextNode(data[val][pass]['rubrik']);
+	
+	newlink.appendChild(txt);
+
+	myElement.appendChild(newlink);
+	
+	document.getElementById(id).appendChild(myElement);
+}
+
 function reset() {
     window.localStorage.clear();
 }
+
 function showtxt(val,pass) {
-//    alert(val);
-//    alert(pass);
+    //    alert(val);
+    //    alert(pass);
     var valp =  val + '|' + pass;
     log.push(valp);
     window.localStorage.setItem("log", log);
     document.getElementById('main').style.display = "none";    
-    document.getElementById('subtxt').innerHTML = data[val][pass]['txt'];
+    document.getElementById('subtxt').innerHTML = '<h3>' + data[val][pass]['rubrik'] + '</h3>' + data[val][pass]['txt'];
     document.getElementById('subtxt').style.display = "block";
-
-
 }
 function back2() {
     document.getElementById('main').style.display = "block";    
@@ -220,9 +237,9 @@ return false
 <body onload=init();>
     <a href="#" onclick="reset();" >Reset</a>
     <a href="#" onclick="back2();" >Back</a>
-<h1 id ="h1"> Träna Nu</h1>
+<div id="header"><h1 id ="h1"> Träna Nu</h1></div>
 
-
+<div id="container"> 
 <div id = "main">
 
 <form name="trananu">
@@ -250,12 +267,12 @@ return false
 &nbsp;
 </div>
 <h3>Historik</h3>
-<div id="historik">
-
+<ul id="historik">
+</ul>
 </div>
     <h4>Longitud, Latitude</h4>
 <div id="latlon">
 </div>
-
+</div>
 </body>
 </html>
