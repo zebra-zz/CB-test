@@ -60,6 +60,7 @@ function go(o) {
     var val = o.niva.value + o.form.value + o.tid.value;
     window.localStorage.setItem("status", val);
     document.getElementById('rub').innerHTML = data[val]['ingress'];
+    document.getElementById('formin').style.display = "none";    
     list_pass(val);
 
 }
@@ -111,6 +112,8 @@ function init() {
     console.log(lang);
     console.log(data);
     document.getElementById('h1').innerHTML = data['head'];
+    document.getElementById('back').innerHTML = data['back'];
+    document.getElementById('reset').innerHTML = data['reset'];
     list_option('niva');
     list_option('form');
     list_option('tid');
@@ -201,6 +204,7 @@ function showtxt(val,pass) {
 }
 function back2() {
     document.getElementById('main').style.display = "block";    
+    document.getElementById('formin').style.display = "block";    
     document.getElementById('subtxt').style.display = "none";
     
     showlogg();
@@ -230,18 +234,32 @@ function any_val(val,pass) {
 
 return false
 }
+
+function toggle(showHideDiv, switchTextDiv) {
+    var ele = document.getElementById(showHideDiv);
+    var text = document.getElementById(switchTextDiv);
+    if(ele.style.display == "block") {
+	ele.style.display = "none";
+	text.innerHTML = "show";
+    }
+    else {
+	ele.style.display = "block";
+	text.innerHTML = "hide";
+    }
+} 
 </script>
 
 </head>
 
 <body onload=init();>
-    <a href="#" onclick="reset(); window.location.reload();" >Reset</a>
-    <a href="#" onclick="back2();" >Back</a>
+    <a href="#" onclick="reset(); window.location.reload();" id="reset">Reset</a>
+    <a href="#" onclick="back2();" id = "back" >Back</a>
+
 <div id="header"><h1 id ="h1"> Träna Nu</h1></div>
 
 <div id="container"> 
 <div id = "main">
-
+<div id="formin">
 <form name="trananu">
 <select name="niva" id="niva"  data-native-menu="false" data-theme="a" data-form="ui-btn-up-a">
 </select>
@@ -256,6 +274,7 @@ return false
 <p>
 <input type="button" value="Go" onclick="go(this.form); return false;">
 </form>
+</div>
 <h2 id="rub">Rubrik</h2>
 <div id="txt">
 </div>
@@ -267,9 +286,12 @@ return false
 &nbsp;
 </div>
 <h3>Historik</h3>
-<ul id="historik">
+<a id="displayText" href="javascript:toggle('historik','displayText');">show</a> <== click Here
+
+<ul id="historik" style="display: none">
 </ul>
 </div>
+
     <h4>Longitud, Latitude</h4>
 <div id="latlon">
 </div>
