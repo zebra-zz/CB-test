@@ -1,0 +1,110 @@
+<html>
+<body>
+<script>
+var st =  {};
+st.data = new Array();
+st.n=0;
+st.sum=0;
+st.sum2=0;
+st.name='a';
+st.freq= {};
+
+function add(o) {
+var m = parseInt(o.s.value);
+st.v=m;
+st.n += 1;
+st.sum += m;
+st.sum2 += m*m;
+st.mean = st.sum/st.n;
+st.var = _var();
+st.std = _std();
+if (st.n == 1) { st.max = m; }
+if (st.n == 1) { st.min = m; }
+st.max = _max();
+st.min = _min();
+st.data.push(m);
+//alert(st.sum);
+//alert(st.sum2);
+
+
+if (typeof st.freq[m] == "undefined") {
+st.freq[m] =0;
+}
+st.freq[m] +=1;
+
+
+
+
+}
+
+st.meanf = function () {
+return (st.n>0) ? st.sum/st.n : 0
+}
+
+function _var() {
+return (st.n > 0) ? 1/(st.n-1)*(st.sum2 - st.sum*st.sum/st.n) : 0
+}
+
+function _std() { return Math.sqrt(st.var);}
+
+function _max() { var max=st.max; return (max < st.v) ? st.v : max;}
+
+function _min() { var min=st.min; return (min > st.v) ? st.v : min;}
+
+st.show = function () {
+lista = ['mean','std','n','max','min'];
+var len= lista.length;
+for ( var i=0; i<len; ++i ){
+    window.document.getElementById(lista[i]).innerHTML=st[lista[i]].toFixed(3);
+}
+var tt='';
+for ( var i=0; i<st.data.length; ++i ){
+tt = tt + '|' + st.data[i];
+}
+var fr='';
+for ( v in st.freq ){
+//console.log(v + ' ' + st.freq[v]);
+    fr += v + ',' + st.freq[v] + '<br>' ;
+
+//    window.document.getElementById('freq').innerHTML=v + ',' + st.freq[v].length + '<br>' ;
+}
+window.document.getElementById('freq').innerHTML=fr ;
+console.log(st.freq)
+ //   window.document.getElementById('freq').innerHTML=fr;
+    window.document.getElementById('data').innerHTML=st.data;
+    window.document.getElementById('data2').innerHTML=tt;
+
+//    window.document.getElementById('m').innerHTML=st.mean.toFixed(3);
+//    window.document.getElementById('std').innerHTML=st.std.toFixed(3);
+//    window.document.getElementById('n').innerHTML=st.n.toFixed(3);
+//    window.document.getElementById('max').innerHTML=st.max.toFixed(3);
+//    window.document.getElementById('min').innerHTML=st.min.toFixed(3);
+}
+</script>
+
+<form>
+
+DATA<input type= "text" size="10" value="2" name="s">
+<input type="button" value="Add" onclick="add(this.form);st.show(); return false;">
+
+</form>
+m<div id='mean'>
+</div>
+std<div id='std'>
+</div>
+n<div id='n'>
+</div>
+max<div id='max'>
+</div>
+</div>
+min<div id='min'>
+</div>
+freq<div id='freq'>
+</div>
+data<div id='data'>
+</div>
+data<div id='data2'>
+</div>
+
+</body>
+</html>
