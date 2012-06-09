@@ -1,0 +1,34 @@
+<?xml version = "1.0" encoding="UTF-8" ?>
+<huvud>
+<totled>33</totled>
+<roster>
+  <V1>7211</V1>
+  <V2>9112</V2>
+  <V3>1312</V3>
+</roster>
+<fastamandat>
+  <V1>7</V1>
+  <V2>9</V2>
+  <V3>13</V3>
+</fastamandat>
+<rosttal>
+  <V1>
+    <A>1233</A>
+    <B>2344</B>
+    <C>2311</C>
+    <D>2123</D>
+  </V1>
+  <V2>
+    <A>233</A>
+    <B>344</B>
+    <C>311</C>
+    <D>923</D>
+  </V2>
+  <V3>
+    <A>4233</A>
+    <B>5344</B>
+    <C>6311</C>
+    <D>212</D>
+  </V3>
+</rosttal>
+</huvud>
