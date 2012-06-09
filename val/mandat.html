@@ -1,0 +1,139 @@
+<!doctype html>
+<meta charset="utf-8">
+<head>
+<title>Mandatfördelning med kretsar</title>
+<script src="mandat.js"></script>
+<script>
+
+var pretty= "\t";
+
+function go(f) {
+    var totled=f.totled.value;
+    var roster=eval('(' + f.roster.value + ')');
+    var fastamandat = eval('(' + f.fastamandat.value + ')');
+    var rosttal = eval('(' + f.rosttal.value + ')');
+    //alert(typeof rosttal);
+    
+    if (totled>0 && typeof rosttal === 'object'  && typeof fastamandat === 'object') {
+	
+        var rkl = f.typ.options;
+	var valtyp = rkl[f.typ.selectedIndex].value;
+	var man;
+	switch(valtyp) {
+	case 'R':
+	    man = new Riksdag(totled);
+	    break;
+	case 'L':
+	    man = new Landsting(totled);
+	    break;
+	case 'K':
+	    man = new Kommun(totled);
+	}
+	//	    alert(man.valtyp)
+	var any=[];
+	for (var i in roster) {
+	    any.push(i);
+	}
+	if ( any.length && f.berfast.checked) {
+	    
+	    man.beräkna_fastamandat(roster);
+	    var rr = man.visa_fastamandat();
+	    
+	    document.getElementById("input").fastamandat.value=JSON.stringify(rr,null, pretty);
+	    man.laddadata(rr,rosttal);
+	} 
+	else {
+	    man.laddadata(fastamandat,rosttal);
+	}
+	man.beräkning();
+	    
+	    
+	    window.document.getElementById('mandfast').innerHTML=JSON.stringify(man.mandfast,null,pretty);
+	    window.document.getElementById('utjamn').innerHTML=JSON.stringify(man.utjamn,null,pretty);
+	    window.document.getElementById('result').innerHTML=JSON.stringify(man.result,null,pretty);
+	    window.document.getElementById('totti').innerHTML=JSON.stringify(man.tottiparti,null,pretty);
+	    console.log('f.jmf.checked');
+	    console.log(f.jmf.checked);
+	    if (f.jmf.checked) {
+
+		window.document.getElementById('JMF').innerHTML=JSON.stringify(man.JMF,null,pretty);
+	    } else {
+		window.document.getElementById('JMF').innerHTML=null;
+}		
+
+	    
+	    } 
+	else {
+	    alert('FEL');
+	}
+    }
+var http = new XMLHttpRequest();
+function hämta(a) {
+var fil=a || 'fil.txt'
+var url=fil;
+
+http.open('GET',url,true);
+http.onreadystatechange=setdata;
+http.send(null);
+}
+function setdata(ex) {
+if (http.readyState == 4) {
+var fil = http.responseText;
+console.log(fil);
+var d = eval('(' + fil + ')');
+//    var d=data[ex];
+    document.getElementById("input").totled.value=d.totled;
+    document.getElementById("input").roster.value=JSON.stringify(d.roster,null, pretty);
+    document.getElementById("input").fastamandat.value=JSON.stringify(d.fastamandat,null, pretty);
+    document.getElementById("input").rosttal.value=JSON.stringify(d.rosttal,null, pretty);
+}
+    //data[ex][totled];
+//    document.getElementById("berfast").checked=false;
+
+}
+
+
+</script>
+</head>
+    <body onload="hämta('fil.txt')">
+
+    <a href="" onclick="hämta('fil.txt'); return false;">Exempel1</a>
+    <a href="" onclick="hämta('fil2.txt'); return false;">Exempel2</a>
+<p>
+
+<form id="input">
+
+
+<!--<input type="checkbox" name='snygg'> Snyggare resultat<p>-->
+<select name="typ" id="valtyp">
+<option value="R">Riksdag</option>
+<option value="L">Landsting</option>
+<option value="K">Kommun</option>
+</select>
+
+<p>Antal ledamöter
+<p>
+<input type="text" name="totled" size="3" maxlength="4"><p>
+Röstberättiga<p>
+<textarea name="roster" rows="5" cols="50"></textarea><p>
+<input type="checkbox" name='berfast' id ="bfast"> Beräkna fastamandat <p>
+Fasta mandat<p>
+<textarea name="fastamandat" rows="5" cols="50"></textarea><p>
+Rösttal<P>
+<textarea name="rosttal"  rows="11" cols="120">
+</textarea><p>
+<input type="checkbox" name='jmf'> Lista jämförelsetal<p>
+    <input type="button" value="GO" onclick="go(this.form);">
+</form>
+<p>Fasta mandat:<p>
+<pre id="mandfast">&nbsp;</pre>
+<p>Utjämings mandat:<p>
+<pre id="utjamn">&nbsp;</pre>
+<p>Totalt mandat:<p>
+<pre id="result">&nbsp;</pre>
+<p>Totalt:<p>
+<pre id="totti">&nbsp;</pre>
+<pre id="JMF">&nbsp;</pre>
+
+</body>
+</html>
