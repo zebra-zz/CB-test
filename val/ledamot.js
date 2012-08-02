@@ -22,7 +22,7 @@ function valda(liströst, kandidat2,mandat) {
 
     }
     console.log(topp);
-	    var list=kandidat['L1'];
+    var list=kandidat['L1'];
    var först=list.shift();
     console.log(list);
     console.log(först);
@@ -30,7 +30,7 @@ function valda(liströst, kandidat2,mandat) {
     for (var i=0;  i<mandat; i++) {
 	var max= maxjmf(R);
 	ledamot.push(max);
-	console.log(i + ' max=' + max);
+	console.log(i + ' max=' + max + ' R= ' + R[max]);
 	console.log(topp[max]);
 	var vv=topp[max];
 	console.log(vv);
@@ -57,7 +57,9 @@ function valda(liströst, kandidat2,mandat) {
 		console.log(först);
 		console.log('röstetal');
 		console.log(röstetal);
+		console.log(R[max]);
 		platstal[först] += röstetal[först]/R[max];
+		console.log('platstal');
 		console.log(platstal);
 		R[först]=röstetal[först]/(platstal[först]+1);
 
@@ -66,6 +68,7 @@ function valda(liströst, kandidat2,mandat) {
 
 		
 	    }
+	}
 		console.log('MAX');
 		console.log(max);
 		delete topp[max]; 
@@ -75,7 +78,7 @@ function valda(liströst, kandidat2,mandat) {
 		console.log(topp);
 		console.log(R);
 	    
-	}
+	
     }
 	
 	console.log(ledamot);
