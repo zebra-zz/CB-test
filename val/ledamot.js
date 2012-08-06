@@ -1,68 +1,72 @@
 function valda(liströst, kandidat2,mandat) {
-    var kanditat= new cloneObject(kandidat2);
+    var kandidat= new cloneObject(kandidat2);
     var första={}
-    var topp={};
+    var grupp={};
     var platstal={};
     var röstetal={};
-    var lista={};    
+
     var R={};
     var ledamot=[];
 // init
     for (var L in kandidat) {
 	var först=kandidat[L].shift();
-	if (typeof topp[först] == "undefined") {
-	    topp[först]=[];
+	if (typeof grupp[först] == "undefined") {
+	    grupp[först]=[];
 	    R[först]=0;
 	    röstetal[först]=0;
 	    platstal[först]=0;
 	}
-	topp[först].push(L);
+	grupp[först].push(L);
 	R[först] += liströst[L];
 	röstetal[först] += liströst[L];
 
     }
-    console.log(topp);
-    var list=kandidat['L1'];
-   var först=list.shift();
-    console.log(list);
-    console.log(först);
+    console.log(grupp);
 
-    for (var i=0;  i<mandat; i++) {
+    for (var m=0;  m<mandat; m++) {
 	var max= maxjmf(R);
 	ledamot.push(max);
-	console.log(i + ' max=' + max + ' R= ' + R[max]);
-	console.log(topp[max]);
-	var vv=topp[max];
-	console.log(vv);
-	for (var L in vv) {
-	    console.log( vv[L] + '=' + kandidat[vv[L]]);
+	console.log(m + ' max=' + max + ' R= ' + R[max]);
+// Rensa
+	console.log(kandidat);
+    for (var K in kandidat) {
+	console.log('kandidat[K]');
+	console.log(kandidat[K]);
+	    tabort_element(kandidat[K],max);
+	}
+	console.log(kandidat);
+
+	console.log(grupp[max]);
+	var listor = grupp[max];
+	console.log(listor);
+	for (var j in listor) {
+	    console.log( listor[j] + '=' + kandidat[listor[j]]);
 	    
-	    var list=kandidat[vv[L]];
-	console.log(list.length);
-	    if(list.length) {
-		console.log(list);
-		var först=list.shift();
+	    var kandidater = kandidat[listor[j]];
+	    console.log(kandidater.length);
+	    if (kandidater.length) {
+		console.log(kandidater);
+		var först=kandidater.shift();
 		console.log('först' + ' =' + först);
-		if (typeof topp[först] == "undefined") {
-		    topp[först]=[];
+		if (typeof grupp[först] == "undefined") {
+		    grupp[först]=[];
 		    R[först]=0;
 		    röstetal[först]=0;
 		    platstal[först]=0;
 		}
-		topp[först].push(vv[L]);
-		for (var L in topp[först]) {
-		    console.log('LL ' + först + ' ' + topp[först][L]);
-		    röstetal[först] += liströst[topp[först][L]];		    
+		grupp[först].push(listor[j]);
+		for (var l in grupp[först]) {
+		    console.log('LL ' + först + ' ' + grupp[först][l]);
+		    röstetal[först] += liströst[grupp[först][l]];
 		}
 		console.log(först);
 		console.log('röstetal');
 		console.log(röstetal);
 		console.log(R[max]);
-		platstal[först] += röstetal[först]/R[max];
+		platstal[först] += tvådecimal( röstetal[först]/R[max] );
 		console.log('platstal');
 		console.log(platstal);
-		R[först]=röstetal[först]/(platstal[först]+1);
-
+		R[först]=tvådecimal( röstetal[först]/(platstal[först]+1) );
 		console.log('R');
 		console.log(R);
 
@@ -71,11 +75,11 @@ function valda(liströst, kandidat2,mandat) {
 	}
 		console.log('MAX');
 		console.log(max);
-		delete topp[max]; 
+		delete grupp[max]; 
 		delete röstetal[max]; 
 		delete platstal[max];
 		delete R[max];
-		console.log(topp);
+		console.log(grupp);
 		console.log(R);
 	    
 	
@@ -112,12 +116,25 @@ function cloneObject(source) {
 	}
     }
 }
+
+function tvådecimal(f) {
+    return Math.floor(f*100)/100;
+}
+
+function tabort_element(arr, vad) {
+    var ind = arr.indexOf(vad);
+
+    while (ind !== -1) {
+        arr.splice(ind, 1);
+        ind = arr.indexOf(vad);
+    }
+}
  
 var obj1= {bla:'blabla',foo:'foofoo',etc:'etc'};
  
 var obj2= new cloneObject(obj1);
 
 var liströst={'L1':3898,'L2':1478,'L3':3473};
-var kandidat={'L1':['A','B','C'],'L2':['A','F','G'],'L3':['A','H','I']};
+var kandidat={'L1':['A','B','C'],'L2':['A','F','G','B'],'L3':['A','H','I']};
 console.log(kandidat);
 valda(liströst,kandidat,5);
