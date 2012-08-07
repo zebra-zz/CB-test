@@ -29,12 +29,9 @@ function valda(liströst, kandidat2,mandat) {
 	console.log(m + ' max=' + max + ' R= ' + R[max]);
 // Rensa
 	console.log(kandidat);
-    for (var K in kandidat) {
-	console.log('kandidat[K]');
-	console.log(kandidat[K]);
+	for (var K in kandidat) {
 	    tabort_element(kandidat[K],max);
 	}
-	console.log(kandidat);
 
 	console.log(grupp[max]);
 	var listor = grupp[max];
@@ -73,20 +70,15 @@ function valda(liströst, kandidat2,mandat) {
 		
 	    }
 	}
-		console.log('MAX');
-		console.log(max);
-		delete grupp[max]; 
-		delete röstetal[max]; 
-		delete platstal[max];
-		delete R[max];
-		console.log(grupp);
-		console.log(R);
-	    
+	
+	delete grupp[max]; 
+	delete röstetal[max]; 
+	delete platstal[max];
+	delete R[max];
 	
     }
-	
-	console.log(ledamot);
     
+    return ledamot;
 }
 
 function maxjmf(jmf){
@@ -137,4 +129,5 @@ var obj2= new cloneObject(obj1);
 var liströst={'L1':3898,'L2':1478,'L3':3473};
 var kandidat={'L1':['A','B','C'],'L2':['A','F','G','B'],'L3':['A','H','I']};
 console.log(kandidat);
-valda(liströst,kandidat,5);
+var ledamot = valda(liströst,kandidat,5);
+console.log(ledamot);
