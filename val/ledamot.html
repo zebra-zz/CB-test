@@ -1,0 +1,40 @@
+<html>
+<head>
+<script src="json-to-table.js"></script>
+<script src="ledamot.js"></script>
+<script>
+var antalmandat=5;
+var d={'roster':{'hej':1,'två':2}};
+var liströst={'L1':3898,'L2':1478,'L3':3473};
+var kandidat={'L1':['A','B','C'],'L2':['A','F','G','B'],'L3':['A','H','I']};
+window.onload=function() {
+    document.getElementById("input").antalmandat.value=antalmandat;
+    document.getElementById("input").liströst.value=JSON.stringify(liströst,null, "\t");
+    document.getElementById("input").kandidat.value=JSON.stringify(kandidat,null, "\t");
+}
+
+function kör(f) {
+    var liströst=eval('(' + f.liströst.value + ')');
+console.log(liströst);
+    var kandidat=eval('(' + f.kandidat.value + ')');
+var antalmandat=f.antalmandat.value;
+var ledamot = valda(liströst,kandidat,antalmandat);
+	    window.document.getElementById('led').innerHTML=JSON.stringify(ledamot,null,"\t");
+
+
+
+window.document.getElementById('tabb').innerHTML=ConvertJsonToTable(ledamot, 'jsonTable', null, 'Download');
+}
+</script>
+</head>
+<body>
+<form id="input">
+<input type="text" name="antalmandat"><p>
+<textarea name="liströst" rows="5" cols="50"></textarea><p>
+<textarea name="kandidat" rows="5" cols="50"></textarea><p>
+    <input type="button" value="Beräkna" onclick="kör(this.form);">
+</form>
+<div id="led"></div>
+<div id="tabb"></div>
+</body>
+</html>
