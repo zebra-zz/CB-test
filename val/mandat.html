@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 <head>
 <title>Mandatfördelning med kretsar</title>
+<script src="json-to-table.js"></script>
 <script src="mandat.js"></script>
 <script>
 
@@ -49,9 +50,15 @@ function go(f) {
 	    
 	    
 	    window.document.getElementById('mandfast').innerHTML=JSON.stringify(man.mandfast,null,pretty);
+
 	    window.document.getElementById('utjamn').innerHTML=JSON.stringify(man.utjamn,null,pretty);
 	    window.document.getElementById('result').innerHTML=JSON.stringify(man.result,null,pretty);
+//window.document.getElementById('result').innerHTML=ConvertJsonToTable(Mängd.skapatabell(man.result), 'jsonTable', null, 'Download');
 	    window.document.getElementById('totti').innerHTML=JSON.stringify(man.tottiparti,null,pretty);
+console.log(Mängd.skapatabell(man.tottiparti));
+//window.document.getElementById('totti').innerHTML=ConvertJsonToTable(Mängd.skapatabell(man.tottiparti), 'jsonTable', null, 'Download');
+window.document.getElementById('totti').innerHTML=ConvertJsonToTable([man.tottiparti], 'jsonTable', null, 'Download');
+
 	    console.log('f.jmf.checked');
 	    console.log(f.jmf.checked);
 	    if (f.jmf.checked) {
