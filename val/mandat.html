@@ -93,6 +93,9 @@ var d = eval('(' + fil + ')');
     document.getElementById("input").roster.value=JSON.stringify(d.roster,null, pretty);
     document.getElementById("input").fastamandat.value=JSON.stringify(d.fastamandat,null, pretty);
     document.getElementById("input").rosttal.value=JSON.stringify(d.rosttal,null, pretty);
+console.log('d.valtyp');
+console.log(d.valtyp);
+document.getElementById("input").valtyp.value=d.valtyp;
 }
     //data[ex][totled];
 //    document.getElementById("berfast").checked=false;

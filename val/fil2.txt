@@ -1,4 +1,5 @@
 { 
+    valtyp:'L',
     totled:71,
 roster:{'Syd':30000,'Mellan':100000,'Norra':40000},
     fastamandat:{'Syd':12, 'Mellan':39, 'Norra':12},

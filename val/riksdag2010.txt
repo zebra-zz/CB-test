@@ -1,4 +1,5 @@
 { 
+    valtyp:'R',
     totled:349,
 roster:{'Blekinge län':118279,'Dalarnas län':217072,'Gotlands län':46237,'Gävleborgs län':217152,'Göteborgs kommun':389821,'Hallands län':229891,'Jämtlands län':100144,'Jönköpings län':256538,'Kalmar län':184737,'Kronobergs län':138781,'Malmö kommun':214326,'Norrbottens län':194788,'Skåne läns norra och östra':232273,'Skåne läns södra':267562,'Skåne läns västra':213580,'Stockholms kommun':634464,'Stockholms län':850629,'Södermanlands län':204779,'Uppsala län':253765,'Värmlands län':213239,'Västerbottens län':201902,'Västernorrlands län':191150,'Västmanlands län':192258,'Västra Götalands läns norra':205328,'Västra Götalands läns södra':144186,'Västra Götalands läns västra':264666,'Västra Götalands läns östra':200322,'Örebro län':215772,'Östergötlands län':330010
 },
