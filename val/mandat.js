@@ -364,6 +364,7 @@ Landsting.prototype.sparr = function() {
 
 Landsting.prototype.beräkna_fastamandat = function(röstberättiga) {
     var antfast = Math.floor(this.fastfaktor*this.totled);
+    this.totfasta = antfast;
     this.fasta = this.störstarest(antfast,röstberättiga)
 };
 
@@ -375,6 +376,7 @@ function Kommun(totled) {
 Kommun.prototype = new Mandat();
 Kommun.prototype.beräkna_fastamandat = function(röstberättiga) {
     var antfast = this.totled;
+    this.totfasta = antfast;
     var fasta = this.störstarest(antfast,röstberättiga)
     console.log('this.fastastart');
     console.log(fasta);

@@ -1,5 +1,6 @@
 { 
-    totled:33,
+    valtyp:'K',
+    totled:49,
     roster:{V1:7211,V2:9112,V3:1312},
     fastamandat:{V1:7,V2:9,V3:13},
     rosttal:{'V1':{A:1233,B:2344,C:2311,D:2123},

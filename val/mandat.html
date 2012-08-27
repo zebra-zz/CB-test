@@ -10,6 +10,8 @@ var pretty= "\t";
 
 function go(f) {
     var totled=f.totled.value;
+    var totfast=f.totfast.value;
+
     var roster=eval('(' + f.roster.value + ')');
     var fastamandat = eval('(' + f.fastamandat.value + ')');
     var rosttal = eval('(' + f.rosttal.value + ')');
@@ -22,7 +24,7 @@ function go(f) {
 	var man;
 	switch(valtyp) {
 	case 'R':
-	    man = new Riksdag(totled);
+	    man = new Riksdag(totled,totfast);
 	    break;
 	case 'L':
 	    man = new Landsting(totled);
@@ -35,11 +37,12 @@ function go(f) {
 	for (var i in roster) {
 	    any.push(i);
 	}
+
 	if ( any.length && f.berfast.checked) {
 	    
 	    man.beräkna_fastamandat(roster);
 	    var rr = man.visa_fastamandat();
-	    
+    document.getElementById("input").totfast.value=man.totfasta;	    
 	    document.getElementById("input").fastamandat.value=JSON.stringify(rr,null, pretty);
 	    man.laddadata(rr,rosttal);
 	} 
@@ -57,7 +60,7 @@ function go(f) {
 	    window.document.getElementById('totti').innerHTML=JSON.stringify(man.tottiparti,null,pretty);
 console.log(Mängd.skapatabell(man.tottiparti));
 //window.document.getElementById('totti').innerHTML=ConvertJsonToTable(Mängd.skapatabell(man.tottiparti), 'jsonTable', null, 'Download');
-window.document.getElementById('totti').innerHTML=ConvertJsonToTable([man.tottiparti], 'jsonTable', null, 'Download');
+window.document.getElementById('tottitab').innerHTML=ConvertJsonToTable([man.tottiparti], 'jsonTable', null, 'Download');
 
 	    console.log('f.jmf.checked');
 	    console.log(f.jmf.checked);
@@ -90,6 +93,7 @@ console.log(fil);
 var d = eval('(' + fil + ')');
 //    var d=data[ex];
     document.getElementById("input").totled.value=d.totled;
+    document.getElementById("input").totfast.value='';
     document.getElementById("input").roster.value=JSON.stringify(d.roster,null, pretty);
     document.getElementById("input").fastamandat.value=JSON.stringify(d.fastamandat,null, pretty);
     document.getElementById("input").rosttal.value=JSON.stringify(d.rosttal,null, pretty);
@@ -125,6 +129,10 @@ document.getElementById("input").valtyp.value=d.valtyp;
 <p>Antal ledamöter
 <p>
 <input type="text" name="totled" size="3" maxlength="4"><p>
+
+<p>Totalt antal fasta mandat
+<p>
+<input type="text" name="totfast" size="3" maxlength="4"><p>
 Röstberättiga<p>
 <textarea name="roster" rows="5" cols="50"></textarea><p>
 <input type="checkbox" name='berfast' id ="bfast"> Beräkna fastamandat <p>
@@ -144,6 +152,7 @@ Rösttal<P>
 <pre id="result">&nbsp;</pre>
 <p>Totalt:<p>
 <pre id="totti">&nbsp;</pre>
+<pre id="tottitab">&nbsp;</pre>
 <pre id="JMF">&nbsp;</pre>
 
 </body>
