@@ -39,8 +39,8 @@ function go(f) {
 	}
 
 	if ( any.length && f.berfast.checked) {
-	    
-	    man.beräkna_fastamandat(roster);
+	    var typ=(f.berfastudda.checked) ? 1 :0;
+	    man.beräkna_fastamandat(roster,typ);
 	    var rr = man.visa_fastamandat();
     document.getElementById("input").totfast.value=man.totfasta;	    
 	    document.getElementById("input").fastamandat.value=JSON.stringify(rr,null, pretty);
@@ -58,6 +58,7 @@ function go(f) {
 	    window.document.getElementById('result').innerHTML=JSON.stringify(man.result,null,pretty);
 //window.document.getElementById('result').innerHTML=ConvertJsonToTable(Mängd.skapatabell(man.result), 'jsonTable', null, 'Download');
 	    window.document.getElementById('totti').innerHTML=JSON.stringify(man.tottiparti,null,pretty);
+	    window.document.getElementById('totalomg').innerHTML=JSON.stringify(man.totalomg,null,pretty);
 console.log(Mängd.skapatabell(man.tottiparti));
 //window.document.getElementById('totti').innerHTML=ConvertJsonToTable(Mängd.skapatabell(man.tottiparti), 'jsonTable', null, 'Download');
 window.document.getElementById('tottitab').innerHTML=ConvertJsonToTable([man.tottiparti], 'jsonTable', null, 'Download');
@@ -133,9 +134,10 @@ document.getElementById("input").valtyp.value=d.valtyp;
 <p>Totalt antal fasta mandat
 <p>
 <input type="text" name="totfast" size="3" maxlength="4"><p>
-Röstberättiga<p>
+Röstberättigade<p>
 <textarea name="roster" rows="5" cols="50"></textarea><p>
 <input type="checkbox" name='berfast' id ="bfast"> Beräkna fastamandat <p>
+<input type="checkbox" name='berfastudda' id ="ufast"> Beräkna fastamandat uddatals metoden<p>
 Fasta mandat<p>
 <textarea name="fastamandat" rows="5" cols="50"></textarea><p>
 Rösttal<P>
@@ -153,7 +155,12 @@ Rösttal<P>
 <p>Totalt:<p>
 <pre id="totti">&nbsp;</pre>
 <pre id="tottitab">&nbsp;</pre>
+<p>Omgång</p>
+<pre id="totalomg">&nbsp;</pre>
 <pre id="JMF">&nbsp;</pre>
+
+
+
 
 </body>
 </html>

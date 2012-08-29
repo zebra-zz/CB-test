@@ -75,9 +75,10 @@ Mandat.prototype = {
 	console.log(negp);
 	// Ny omgång
 	var omgang = 0;
-	
+	var totalomg={};
 	var nytotled = this.totled;
 	var nytotal=this.total;
+	totalomg[omgang] = nytotal;
 	while(Mängd.antalnycklar(negp)) {
 	    omgang++;
 	    console.log('omgang');
@@ -96,6 +97,7 @@ Mandat.prototype = {
 	    nytotal = this.mandat(this.T,m,nytotled);
 	    console.log('nytotal');
 	    console.log(nytotal);
+	    totalomg[omgang] = nytotal;
 	    var utj = Mängd.diff(nytotal,this.totfast);
 	    negp = Mängd.parti_negutjamn(utj);
 	    console.log('negp');
@@ -108,7 +110,7 @@ Mandat.prototype = {
 	console.log(min2);
 	// Ny total
 	// union?
-	
+	this.totalomg=totalomg;
 	var nytotal2 = Mängd.union(nytotal,this.totfast);
 	console.log(nytotal2);
 	// Korrekta totala utjämningsmandat
@@ -228,7 +230,7 @@ Mandat.prototype = {
 	for (var v in roster) {
 	    var kvot = totfast*roster[v]/tot
 	    kv[v] = Math.floor(kvot);
-	    var re = kvot %  Math.floor(kvot);
+	    var re = kvot -  Math.floor(kvot);
 	    rest.push(re);
 	    vlista.push(v);
 	}
@@ -325,9 +327,17 @@ Riksdag.prototype.sparr = function() {
     }
     return all;
 }
-Riksdag.prototype.beräkna_fastamandat = function(röstberättiga) {
+Riksdag.prototype.beräkna_fastamandat = function(röstberättiga,metod) {
     var antfast = this.totfasta;
+    if (metod) {
+	console.log('UDDATAL');
+	var m = Mängd.initobj(röstberättiga,0);
+	this.fasta = this.mandat(röstberättiga,m,antfast)
+    } 
+    else {
+
     this.fasta = this.störstarest(antfast,röstberättiga)
+    }
 };
 
 function Landsting(totled) {
