@@ -1,0 +1,113 @@
+{ 
+    valtyp:'K',
+    totled:101,
+    roster:{   "1 Södermalm-Enskede" : 129554,
+   "2 Bromma-Kungsholmen" : 102034,
+   "3 Norrmalm-Östermalm-Gamla Stan" : 112857,
+   "4 Östra Söderort" : 108626 ,
+   "5 Västra Söderort" : 105698,
+   "6 Yttre Västerort" : 105244},
+    fastamandat:{
+   "1 Södermalm-Enskede" : 20,
+   "2 Bromma-Kungsholmen" : 15,
+   "3 Norrmalm-Östermalm-Gamla Stan" : 17,
+   "4 Östra Söderort" : 17,
+   "5 Västra Söderort" : 16,
+   "6 Yttre Västerort" : 16
+},
+rosttal:{
+   "6 Yttre Västerort" : {
+      "FI" : 301,
+      "S" : 27246,
+      "K" : 58,
+      "MP" : 7565,
+      "V" : 5563,
+      "ND" : 27,
+      "M" : 20967,
+      "KD" : 2928,
+      "C" : 1809,
+      "FP" : 6642,
+      "SD" : 2569,
+      "RS" : 329,
+      "ÖVR" : 115
+   },
+   "5 Västra Söderort" : {
+      "FI" : 1113,
+      "S" : 22924,
+      "K" : 69,
+      "MP" : 12699,
+      "V" : 7651,
+      "ND" : 20,
+      "M" : 23240,
+      "KD" : 2349,
+      "C" : 2904,
+      "FP" : 7334,
+      "SD" : 2697,
+      "RS" : 115,
+      "ÖVR" : 128
+   },
+   "3 Norrmalm-Östermalm-Gamla Stan" : {
+      "FI" : 894,
+      "S" : 10039,
+      "K" : 38,
+      "MP" : 9764,
+      "V" : 3490,
+      "ND" : 20,
+      "M" : 48791,
+      "KD" : 4266,
+      "C" : 5155,
+      "FP" : 12168,
+      "SD" : 1613,
+      "RS" : 13,
+      "ÖVR" : 125
+   },
+   "1 Södermalm-Enskede" : {
+      "FI" : 2083,
+      "S" : 22626,
+      "K" : 84,
+      "MP" : 20945,
+      "V" : 10747,
+      "ND" : 20,
+      "M" : 32979,
+      "KD" : 2950,
+      "C" : 4791,
+      "FP" : 10233,
+      "SD" : 2207,
+      "RS" : 81,
+      "ÖVR" : 166
+   },
+   "4 Östra Söderort" : {
+      "FI" : 1023,
+      "S" : 26229,
+      "K" : 107,
+      "MP" : 12767,
+      "V" : 8547,
+      "ND" : 44,
+      "M" : 20517,
+      "KD" : 2535,
+      "C" : 2239,
+      "FP" : 6074,
+      "SD" : 3167,
+      "RS" : 200,
+      "ÖVR" : 145
+   },
+   "2 Bromma-Kungsholmen" : {
+      "FI" : 802,
+      "S" : 12209,
+      "K" : 46,
+      "MP" : 10697,
+      "V" : 3922,
+      "ND" : 16,
+      "M" : 38039,
+      "KD" : 3677,
+      "C" : 4437,
+      "FP" : 11319,
+      "SD" : 1832,
+      "RS" : 52,
+      "ÖVR" : 113
+   }
+}
+
+
+
+}
