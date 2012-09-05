@@ -33,7 +33,7 @@ Mandat.prototype = {
 	    var rost = this.subrosttal[v];
 	    var m = Mängd.initobj(rost,0);
 
-	    var mand = this.mandat(rost,m,this.fastamandat[v]);
+	    var mand = this.mandat(rost,m,this.fastamandat[v],this.jamkning);
 	    M[v]=mand;
 
 	    J[v]=this.listajmf;
@@ -46,7 +46,7 @@ Mandat.prototype = {
 
 	var m = Mängd.initobj(this.T,0);
 	// Totala mandaten per parti
-	var total = this.mandat(this.T,m,this.totled);
+	var total = this.mandat(this.T,m,this.totled,this.jamkning);
 	this.propmand=total;
 	this.total=total;
 	// Fasta mandaten per parti
@@ -94,7 +94,7 @@ Mandat.prototype = {
 
 	    var m = Mängd.initobj(min,0);
 	    
-	    nytotal = this.mandat(this.T,m,nytotled);
+	    nytotal = this.mandat(this.T,m,nytotled,this.jamkning);
 	    console.log('nytotal');
 	    console.log(nytotal);
 	    totalomg[omgang] = nytotal;
@@ -125,12 +125,12 @@ Mandat.prototype = {
 	console.log(Mt);
 	var Vt = Mängd.transponera(this.subrosttal);
 	Vm={}
-	this.jamkning = 0;
+	jamkning = 0;
 	var utjamnt={};
 	for (p in Mt) {
 	    var mt=Mt[p];
 	    
-	    var mand = this.mandat(Vt[p],Mt[p],this.totutj[p]);
+	    var mand = this.mandat(Vt[p],Mt[p],this.totutj[p],jamkning);
 	    utjamnt[p] = Mängd.diff(mand,Mt[p]);
 	    
 	    console.log('diffa');
@@ -161,14 +161,12 @@ Mandat.prototype = {
 	this.fasta_och_utjämningsmandat();
     },
     mandat: function(rosttal,minit,antalmand,jamkning) {
-
-	var jamkning = jamkning || this.jamkning;    
 //Clone
 	var m = Mängd.initobj(minit,minit);
 	var jmf={};
 	var lista=[];
 	for (var p in m) { 	
-	    jmf[p]=rosttal[p]/this.divisor(m[p]);	    
+	    jmf[p]=rosttal[p]/this.divisor(m[p],jamkning);	    
 	}
 	
 	for (var i=1; i <= antalmand; i++){
@@ -187,20 +185,20 @@ Mandat.prototype = {
 	    m[p]++;
 
 	    if (lotta) {
-		lista.push([i,p,this.divisor(m[p]-1),jmf[p],'Lottning!']);
+		lista.push([i,p,this.divisor(m[p]-1,jamkning),jmf[p],'Lottning!']);
 	    } 
 	    else {
-		lista.push([i,p,this.divisor(m[p]-1),jmf[p]]);
+		lista.push([i,p,this.divisor(m[p]-1,jamkning),jmf[p]]);
 	    }
-	    jmf[p]=rosttal[p]/this.divisor(m[p]);
+	    jmf[p]=rosttal[p]/this.divisor(m[p],jamkning);
 	}
 
 	this.listajmf=lista;
 //	return {'m':m,'jmf':lista};
 	return m;
     },
-    divisor: function(m) {
-	if (m==0 && this.jamkning==1) {
+    divisor: function(m,jamkning) {
+	if (m==0 && jamkning==1) {
 	    return 1.4;
 	} 
 	else {
@@ -332,7 +330,7 @@ Riksdag.prototype.beräkna_fastamandat = function(röstberättiga,metod) {
     if (metod) {
 	console.log('UDDATAL');
 	var m = Mängd.initobj(röstberättiga,0);
-	this.fasta = this.mandat(röstberättiga,m,antfast)
+	this.fasta = this.mandat(röstberättiga,m,antfast,0)
     } 
     else {
 
@@ -340,11 +338,12 @@ Riksdag.prototype.beräkna_fastamandat = function(röstberättiga,metod) {
     }
 };
 
-function Landsting(totled) {
+function Landsting(totled,totfasta) {
     Mandat.call(this,totled);
     this.sparrgrans=3;
     this.valtyp='L';
     this.fastfaktor=0.9;
+    this.totfasta = totfasta || undefined;
 }
 Landsting.prototype = new Mandat();
 Landsting.prototype.sparr = function() {
@@ -374,8 +373,8 @@ Landsting.prototype.sparr = function() {
 
 Landsting.prototype.beräkna_fastamandat = function(röstberättiga) {
     var antfast = Math.floor(this.fastfaktor*this.totled);
-    this.totfasta = antfast;
-    this.fasta = this.störstarest(antfast,röstberättiga)
+    this.totfasta = this.totfasta || antfast;
+    this.fasta = this.störstarest(this.totfasta,röstberättiga)
 };
 
 
