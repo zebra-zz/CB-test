@@ -32,44 +32,55 @@ function valda(liströst, kandidat2,mandat) {
 	for (var K in kandidat) {
 	    tabort_element(kandidat[K],max);
 	}
-
+	console.log('grupp[max]');
 	console.log(grupp[max]);
 	var listor = grupp[max];
+	console.log('listor');
 	console.log(listor);
+	var toppar={};
 	for (var j in listor) {
-	    console.log( listor[j] + '=' + kandidat[listor[j]]);
+	    console.log( 'J=' + j + ' ' + listor[j] + '||=' + kandidat[listor[j]]);
 	    
 	    var kandidater = kandidat[listor[j]];
 	    console.log(kandidater.length);
-	    if (kandidater.length) {
+//	    if (kandidater.length) {
 		console.log(kandidater);
 		var först=kandidater.shift();
-		console.log('först' + ' =' + först);
+		
+		console.log('först' + ' =' + först + ' ?? ' + j + 'BLA=' + listor[j]);
 		if (typeof grupp[först] == "undefined") {
 		    grupp[först]=[];
 		    R[först]=0;
 		    röstetal[först]=0;
 		    platstal[först]=0;
 		}
-		grupp[först].push(listor[j]);
-		for (var l in grupp[först]) {
-		    console.log('LL ' + först + ' ' + grupp[först][l]);
-		    röstetal[först] += liströst[grupp[först][l]];
+		if (typeof toppar[först] == "undefined") {
+		    toppar[först]=0;
 		}
-		console.log(först);
-		console.log('röstetal');
-		console.log(röstetal);
-		console.log(R[max]);
-		platstal[först] += tvådecimal( röstetal[först]/R[max] );
-		console.log('platstal');
-		console.log(platstal);
-		R[först]=tvådecimal( röstetal[först]/(platstal[först]+1) );
-		console.log('R');
-		console.log(R);
-
-		
-	    }
+		grupp[först].push(listor[j]);
+		toppar[först] += liströst[listor[j]];
+//	    }
 	}
+	console.log('toppar');
+	console.log(toppar);
+	console.log(grupp);
+	console.log(liströst);
+	for (var top in toppar) {
+	    console.log('LL ' + först + ' ' + toppar[top]);
+	    platstal[top] += tvådecimal( toppar[top]/R[max] );
+	    röstetal[top] += toppar[top];
+	    R[top]=tvådecimal( röstetal[top]/(platstal[top]+1) );
+	}
+	console.log(först);
+	console.log('röstetal');
+	console.log(röstetal);
+	console.log(R[max]);
+	
+	console.log('platstal');
+	console.log(platstal);
+	
+	console.log('R');
+	console.log(R);
 	
 	delete grupp[max]; 
 	delete röstetal[max]; 

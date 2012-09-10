@@ -5,8 +5,85 @@
 <script>
 var antalmandat=5;
 var d={'roster':{'hej':1,'två':2}};
-var liströst={'L1':3898,'L2':1478,'L3':3473};
-var kandidat={'L1':['A','B','C'],'L2':['A','F','G','B'],'L3':['A','H','I']};
+//var liströst={'L1':3898,'L2':1478,'L3':3473};
+//var kandidat={'L1':['A','B','C'],'L2':['A','F','G','B'],'L3':['A','H','I']};
+
+var liströst={
+        "L4": 86,
+        "L7": 94,
+        "L8": 67,
+        "L9": 254,
+        "L10": 187,
+        "L11": 105,
+        "L12": 424,
+        "L13": 141
+};
+var kandidat={
+"L4": [
+"Eva J",
+"Carola F",
+"Ulla A",
+"Eva B",
+"Irene D"
+],
+"L7": [
+"Eva J",
+"Eva B",
+"Tommy R",
+"Ulla A",
+"Karl-Goran H",
+"Carola F",
+"Lars-Erik F",
+"Angelica S"
+],
+"L8": [
+"Karl-Goran H",
+"Eva J",
+"Tommy R",
+"Ulla A",
+"Reidar E"
+],
+"L9": [
+"Carola F",
+"Tommy R",
+"Eva J",
+"Karl-Goran H",
+"Ulla A",
+"Lars-Erik F",
+"Eva B",
+"Ronny S"
+],
+"L10": [
+"Ulla A",
+"Tommy R",
+"Carola F",
+"Karl-Goran H",
+"Eva J",
+"Lars-Erik F",
+"Eva B",
+"Jonny R"
+],
+"L11": [
+"Tomas R"
+],
+"L12": [
+"Eva J",
+"Karl-Goran H",
+"Carola F",
+"Tommy R",
+"Ulla A",
+"Lars-Erik F",
+"Eva B",
+"Ulf P",
+"Angelica S"
+],
+"L13": [
+"Tommy R",
+"Eva B",
+"Ulf P",
+"Dagny T"
+]
+};
 window.onload=function() {
     document.getElementById("input").antalmandat.value=antalmandat;
     document.getElementById("input").liströst.value=JSON.stringify(liströst,null, "\t");
