@@ -35,15 +35,13 @@ function valda(liströst, kandidat2,mandat) {
 	console.log('grupp[max]');
 	console.log(grupp[max]);
 	var listor = grupp[max];
-	console.log('listor');
-	console.log(listor);
+
 	var toppar={};
 	for (var j in listor) {
-	    console.log( 'J=' + j + ' ' + listor[j] + '||=' + kandidat[listor[j]]);
-	    
+	    console.log( 'J=' + j + ' ' + listor[j] + '||=' + kandidat[listor[j]]);	    
 	    var kandidater = kandidat[listor[j]];
 	    console.log(kandidater.length);
-//	    if (kandidater.length) {
+	    if (kandidater.length) {
 		console.log(kandidater);
 		var först=kandidater.shift();
 		
@@ -59,7 +57,7 @@ function valda(liströst, kandidat2,mandat) {
 		}
 		grupp[först].push(listor[j]);
 		toppar[först] += liströst[listor[j]];
-//	    }
+	    }
 	}
 	console.log('toppar');
 	console.log(toppar);
