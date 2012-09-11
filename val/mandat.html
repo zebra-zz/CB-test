@@ -78,6 +78,13 @@ window.document.getElementById('tottitab').innerHTML=ConvertJsonToTable([man.tot
 	    alert('FEL');
 	}
     }
+
+function nolla() {
+var namn = ['mandfast','utjamn','result','totalomg','totti','tottitab'];
+for (var i in namn) {
+window.document.getElementById(namn[i]).innerHTML='';
+}
+}
 var http = new XMLHttpRequest();
 function hämta(a) {
 var fil=a || 'fil.txt'
@@ -108,15 +115,16 @@ document.getElementById("input").valtyp.value=d.valtyp;
 }
 
 
+
 </script>
 </head>
     <body onload="hämta('fil.txt')">
 
-    <a href="" onclick="hämta('fil.txt'); return false;">Exempel1</a>
-    <a href="" onclick="hämta('fil2.txt'); return false;">Exempel2</a>
-    <a href="" onclick="hämta('riksdag2010.txt'); return false;">Riksdag 2010</a>
-    <a href="" onclick="hämta('sthlm.json'); return false;">Stockholm 2010</a>
-    <a href="" onclick="hämta('jonkopings_landsting.json'); return false;">Jönköpings landsting 2010</a>
+    <a href="" onclick="hämta('fil.txt');nolla(); return false;">Exempel1</a>
+    <a href="" onclick="hämta('fil2.txt');nolla(); return false;">Exempel2</a>
+    <a href="" onclick="hämta('riksdag2010.txt');nolla(); return false;">Riksdag 2010</a>
+    <a href="" onclick="hämta('sthlm.json');nolla(); return false;">Stockholm 2010</a>
+    <a href="" onclick="hämta('jonkopings_landsting.json');nolla(); return false;">Jönköpings landsting 2010</a>
 <p>
 
 <form id="input">
