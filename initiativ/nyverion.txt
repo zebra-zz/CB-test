@@ -1,0 +1,4 @@
+export VERSIONER_PERL_PREFER_32_BIT=yes
+ defaults write com.apple.versioner.perl Prefer-32-Bit -bool yes
+defaults write com.apple.versioner.perl Version 5.8.9
+ defaults write /Library/Preferences/com.apple.versioner.perl Version 5.8.9
