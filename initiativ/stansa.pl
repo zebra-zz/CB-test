@@ -33,7 +33,7 @@ map {push @pop,$_->{lopnummer}} @$lista;
 $q->delete_all();
 
 print $q->start_html(-title=>'INI',
-		     -style=>{-src=>'/~claes/ini.css'});
+		     -style=>{-src=>$cb->{css}});
 print $cb->meny();
 print $cb->namn();
 
@@ -41,7 +41,8 @@ print $cb->namn();
 print $q->end_ul();
 print $q->start_table({-border=>1});
 print $q->Tr($q->td([qw(lopnummer pnr fornamn efternamn fodelseort datumtxt &nbsp;)]));
-    print $q->start_form();
+
+print $q->start_form(-action=>$q->url(-relative=>1));
     print $q->hidden('id');
 print $q->Tr($q->td([$q->popup_menu('lopnummer',\@pop), $q->textfield('pnr'), $q->textfield('fornamn'), $q->textfield('efternamn'), $q->textfield('fodelseort'), $q->textfield('datumtxt'),$q->submit(-name=>'stansa',-value=>'Stansa')]));
 

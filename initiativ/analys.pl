@@ -19,7 +19,10 @@ if ($q->param('lopnummer')) {
 }
 
 print $q->start_html(-title=>'INI',
-		     -style=>{-src=>'/~claes/ini.css'});
+		     -style=>{-src=>$cb->{css}});
+
+
+
 print $cb->meny();
 print $cb->namn();
 
@@ -37,7 +40,8 @@ foreach my $in (@$namn) {
     $godkand{$in->{godkand}}=$in->{godkand_txt};
 }
 
-print $q->start_form().$q->checkbox(-name=>'EJOK',-value=>1,-onchange=>"submit()",-label=>'Ej godkända').$q->end_form();
+
+print $q->start_form(-action=>$q->url(-relative=>1)).$q->checkbox(-name=>'EJOK',-value=>1,-onchange=>"submit()",-label=>'Ej godkända').$q->end_form();
 #print $q->Dump();
 print $q->Tr($q->td([qw(lopnummer pnr fornamn efternamn fodelseort datumtxt datum typ godkand orsak &nbsp; fornamn_f efternamn_e)]));
 #print $q->Dump();

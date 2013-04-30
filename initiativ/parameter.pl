@@ -62,6 +62,7 @@ if ($q->param('urval')) {
     my $tot=$db->selectrow_array("select varde from parameter where id=? and nyckel='ANTAL_TOTAL'", {}, 
 				 $id);
     foreach my $i (1..$tot) {
+    print STDERR "INSERT URVAL = $i : $id\n";
 	$db->do("insert into utvald (id,lopnummer,slump) values(?,?,rand())", {},
 		$id,$i);
     }
@@ -119,8 +120,9 @@ print $q->header(-type=>'text/html',-charset=>'utf-8');
 
 #print $q->start_html(-title=>'INI',-style=>{-src=>'/~claes/initiativ.css'});
 print $q->start_html(-title=>'INI',-script=>{-type=>'text/javascript',
-					     -src=>'/~claes/ini.js'},
--style=>{-src=>'/~claes/ini.css'});
+					     -src=>'../../ini.js'},
+		     -style=>{-src=>$cb->{css}});
+
 
 
 print $cb->meny();
@@ -133,17 +135,17 @@ print $q->p();
 my $all = $db->selectall_arrayref("select * from parameter where id=?", { Slice => {} }, $id);
 print $q->start_ul();
 my $falt=0;
-print $q->start_form();
 
+print $q->start_form(-action=>$q->url(-relative=>1));
 foreach my $in (@$all) {
 
     if ($db->selectrow_array("select count(1) from parameter_ordning where nyckel=? and steg=?", {},$in->{nyckel},$steg)) {
 
 	print STDERR "STEG $steg\n";
-    print STDERR Dumper($in);
+#    print STDERR Dumper($in);
 
 	if ($in->{nyckel}=~/^LAS/) {
-	    print $q->start_multipart_form();
+	    print $q->start_multipart_form(-action=>$q->url(-relative=>1));
 	    print $in->{nyckel}.$q->br();
 	    my $filnamn=($in->{nyckel} eq 'LAS_ELEKTRONSIK_FIL') ? 'uploaded_file' : 'folkfil';
 	    print $q->filefield($filnamn,'starting value',50,80);

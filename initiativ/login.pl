@@ -24,7 +24,8 @@ if ($q->param('namn') || $q->param('losen')) {
 	$cookie = $q->cookie(-name=>'INI',
 			     -value=>$sid,
 			     -expires=>'+4h',
-			     -path=>'/');
+			     -path=>'/'
+);
 	print $q->redirect(-uri=>'start.pl',-cookie=>$cookie);
     } else {
 	$fel=1;
@@ -43,9 +44,9 @@ print $q->header(-cookie=>$cookie);
 
 
 print $q->start_html(-title=>'INI',
-		     -style=>{-src=>'/~claes/ini.css'});
+		     -style=>{-src=>$cb->{css}});
 print $cb->meny();
-print $q->start_form();
+print $q->start_form(-action=>$q->url(-relative=>1));
 print $q->ul($q->li([
 		 $q->textfield('namn'),
 		 $q->password_field('losen'),

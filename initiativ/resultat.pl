@@ -16,7 +16,7 @@ print $q->header(-type=>'text/html',-charset=>'utf-8');
 
 
 print $q->start_html(-title=>'INI',
-		     -style=>{-src=>'/~claes/ini.css'});
+		     -style=>{-src=>$cb->{css}});
 print $cb->meny();
 print $cb->namn();
 my $ant= $db->selectrow_array("select count(1) from status where id=? and godkand=1", {},$id);

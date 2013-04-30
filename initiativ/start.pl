@@ -27,7 +27,7 @@ my $all = $db->selectall_arrayref("select * from initiativ", { Slice => {} });
 
 
 print $q->start_html(-title=>'INI',
-		     -style=>{-src=>'/~claes/ini.css'});
+		     -style=>{-src=>$cb->{css}});
 print $cb->meny();
 print $cb->namn();
 
@@ -39,7 +39,7 @@ $q->a({-href=>'parameter.pl?id='.$in->{id}},'Välj')]));
 }
 print $q->end_table();
 if ($q->param('ny')) {
-print $q->start_form();
+print $q->start_form(-action=>$q->url(-relative=>1));
 print $q->start_ul();
 print $q->li('NAMN<br> '.$q->textfield('namn'));
 print $q->li('START<br> '.$q->textfield('start'));
