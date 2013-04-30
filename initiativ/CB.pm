@@ -10,6 +10,7 @@ sub new {
     bless $self;
     $self->{q} = new CGI;
     $self->{db} = DBI->connect('DBI:mysql:initiativ', 'root', '');
+    $self->{css} = '../../ini.css';
     return $self;
 }
 
@@ -49,6 +50,12 @@ sub meny() {
     return $html;
 }
 
-
+sub printo {
+    my $self= shift;
+    my $s= shift;
+    my %o=('hej'=>'hello', 'STICKPROV'=>'Stickprov','URVAL'=>'Urval');
+    $s =~ s/<o>(.+?)<\/o>/($o{$1}) ? $o{$1} : $1/ge;
+    return $s;
+}
 
 1;
