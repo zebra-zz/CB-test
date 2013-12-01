@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang=sv>
+<head>
+<meta charset=utf8>
+<title>Urval med strata</title>
+<script type="text/javascript">
+// Beräkning av urvalsstorlek med strata samt berökning av skattning
+// Claes Björklund
+
+function InvNormalP( p ) {
+    // Odeh & Evans. 1974. AS 70. Applied Statistics. 23: 96-97
+    var
+    p0 = -0.322232431088,
+    p1 = -1.0,
+    p2 = -0.342242088547,
+    p3 = -0.0204231210245,
+    p4 = -0.453642210148E-4,
+    q0 =  0.0993484626060,
+    q1 =  0.588581570495,
+    q2 =  0.531103462366,
+    q3 =  0.103537752850,
+    q4 =  0.38560700634E-2,
+    pp, y, xp;
+    
+    // p: 0.0 .. 1.0 -> pp: 0.0 .. 0.5 .. 0.0
+    if (p < 0.5)  pp = p;  else  pp = 1 - p;
+    
+    if (pp < 1E-12)
+       xp = 99;
+    else {
+	y = Math.sqrt(Math.log(1/(pp*pp)));
+	xp = y + ((((y * p4 + p3) * y + p2) * y + p1) * y + p0) /
+            ((((y * q4 + q3) * y + q2) * y + q1) * y + q0);
+    }
+    
+    if (p < 0.5)  return -xp;
+    else  return  xp;
+}
+var o={};
+var w=window.document;
+function antalstrata() {
+    var antstrata = window.document.getElementById('antstrata').value;
+    o.antstrata=antstrata;
+
+    var  par=['N','p','n','x'];
+    var parval={N:4000,p:50,n:'', x:'333'};
+
+    var str="<input type=\"button\" id=\"urvalstorlek\" value =\"Urvalstorlek \" onClick=\"urval()\"><p>";
+    for (var i=1; i <= o.antstrata; i++) {
+	str += "Strata " + i + "<ul>" 
+	for (k in par) {
+	    var u ='';
+	    if (par[k] == 'n') {
+		u ="<input type=\"button\"  id=\"slump"+ (i-1) + "\"value =\"Slump \" onClick=\"slump(" + (i-1) + ")\">";
+	    }
+	    str+=  "<li>" + par[k] + i + ":<input type=\"text\" id =\"" + par[k] + i +"\" size=\"5\" value=\"" + parval[par[k]] + "\">" + u +"</li>" 
+	}
+	str += "</ul>";
+    }
+	str += "<input type=\"button\" id=\"skattning\" value =\"Skattning \" onClick=\"skattning()\"><p>";
+	
+    w.getElementById('omstart').disabled=false;
+    w.getElementById('strata').innerHTML=str;
+
+    w.getElementById('knappstrata').disabled=true;
+}
+function omstart() {
+    w.getElementById('knappstrata').disabled=false;
+    w.getElementById('urvalstorlek').disabled=false;
+    for (i in o.strata) {
+	w.getElementById('slump' + i ).disabled=false;
+   }
+   w.getElementById('strataresultat').innerHTML='';
+   w.getElementById('resultat').innerHTML='';
+   w.getElementById('slutresultat').innerHTML='';
+}
+function urval() {
+    hämta_värden();
+
+    o.N=0;
+    // Urvalsstorlek för hela populationen
+    var sum1=0;
+    var sum2=0;
+    for (i in o.strata) {
+	o.N += o.strata[i].N;
+	sum1 += o.strata[i].N*Math.sqrt(o.strata[i].p*o.strata[i].q);
+	sum2 += o.strata[i].N*o.strata[i].p*o.strata[i].q;
+    } 
+
+    var percentil=( 1 + o.z )/2;
+    var lambda = InvNormalP( percentil );
+    
+    o.lambda=lambda;
+    o.n = Math.ceil(sum1*sum1/(Math.pow(o.N*o.d/lambda,2) +sum2));	
+
+
+    for (i in o.strata) {
+	var ns = Math.ceil(o.n*o.strata[i].N*Math.sqrt(o.strata[i].p*o.strata[i].q)/sum1)
+	o.strata[i].n=ns;
+    }
+
+    for (var i=1; i <= o.antstrata; i++) {
+	w.getElementById('n' + i).value=o.strata[i-1].n;
+    }
+    w.getElementById('urvalstorlek').disabled='true';
+
+
+}
+
+function skattning() {
+    hämta_värden();
+    var error=false;
+    for (i in o.strata) {
+	if (!(o.strata[i].x != '' && 0<= o.strata[i].x && o.strata[i].x<= o.strata[i].n && o.strata[i].n <= o.strata[i].N)) {
+	    alert('Fel');
+	    error=true;
+	}
+    }
+    if (error) {
+	w.getElementById('strataresultat').innerHTML='';
+	w.getElementById('resultat').innerHTML='';
+	w.getElementById('slutresultat').innerHTML='';
+	return;
+    }
+    o.N=0;
+    for (i in o.strata) {
+	o.N += o.strata[i].N;
+	o.strata[i].phat = parseInt(o.strata[i].x)/parseInt(o.strata[i].n);
+	o.strata[i].qhat = 1-o.strata[i].phat;
+    }
+
+    o.phat=0;
+    for (i in o.strata) {
+	o.phat += o.strata[i].N/o.N*o.strata[i].phat;
+    }
+
+    for (i in o.strata) {
+	o.strata[i].varphat = Math.pow(o.strata[i].N/o.N,2)*o.strata[i].phat*o.strata[i].qhat*(o.strata[i].N-o.strata[i].n)/(o.strata[i].n-1)/o.strata[i].N;
+        o.strata[i].ub = o.strata[i].phat +  o.lambda*Math.sqrt(o.strata[i].varphat);
+        o.strata[i].lb = o.strata[i].phat -  o.lambda*Math.sqrt(o.strata[i].varphat);
+
+	o.strata[i].Nphat=o.strata[i].N*o.strata[i].phat;
+	o.strata[i].Nub=o.strata[i].N*o.strata[i].ub;
+	o.strata[i].Nlb=o.strata[i].N*o.strata[i].lb;
+    }
+
+    o.varphat=0;
+    for (i in o.strata) {
+	o.varphat += o.strata[i].varphat;
+    }
+
+    o.ub = o.phat +  o.lambda*Math.sqrt(o.varphat);
+    o.lb = o.phat -  o.lambda*Math.sqrt(o.varphat);
+
+    o.Nhat=o.N*o.phat;
+    
+    o.ubNhat=o.ub*o.N
+    o.lbNhat=o.lb*o.N
+
+    console.log(o)
+    var sr,u,li,txt;
+    w.getElementById('strataresultat').innerHTML='';
+    sr=w.getElementById('strataresultat');
+    u=w.createElement('ul');
+
+
+    var i1=0;
+    for (i in o.strata) {
+	li=w.createElement('li');
+	i1++;
+	txt =w.createTextNode('Strata ' + i1 + ': ' + (100*o.strata[i].phat).toFixed(2)  + '  [ ' + (100*o.strata[i].lb).toFixed(2) + ', ' + (100*o.strata[i].ub).toFixed(2) + '] %  ' + Math.ceil(o.strata[i].Nphat) + '  [' + Math.ceil(o.strata[i].Nlb) + ', ' + Math.ceil(o.strata[i].Nub) +']');
+	li.appendChild(txt);
+	u.appendChild(li);
+    }
+    sr.appendChild(u);
+
+    w.getElementById('resultat').innerHTML=" N = " + o.N + "<p>Phat : " +  (100*o.phat).toFixed(2) + "  [ " + (100*o.lb).toFixed(2) + ", " + (100*o.ub).toFixed(2) + " ] %<p> Nhat : " +  Math.ceil(o.Nhat) + "  [ " + Math.ceil(o.lbNhat) + ", " + Math.ceil(o.ubNhat) + " ]";
+    
+    w.getElementById('slutresultat').innerHTML="Slutresultat: " + Math.ceil(o.ubNhat);
+
+}
+function slump(str) {
+    hämta_värden();
+    w.getElementById('slump' + str ).disabled=true;
+    var sortable = [];
+    for (var i=1; i<=o.strata[str].N; i++) {
+	sortable.push([i, Math.random()])
+    }
+    sortable.sort(function(a, b) {return a[1] - b[1]})
+    var lopnummer=[];
+    var lop='';
+    for (var i=0; i<o.strata[str].n; i++) {
+	lopnummer.push(sortable[i][0]);
+	lop = lop + sortable[i][0] + ', ';
+    }
+    alert(lop);
+}
+
+function hämta_värden() {
+    o.strata=[];
+    o.z=w.getElementById('z').value/100;
+    o.d=w.getElementById('d').value/100;
+    for (var i=1; i <= o.antstrata; i++) {
+	var N = parseInt(w.getElementById('N' + i).value);
+	var p = parseInt(w.getElementById('p' + i).value)/100;
+	var q = 1-p;
+	var n = parseInt(w.getElementById('n' + i).value);
+	var x = parseInt(w.getElementById('x' + i).value);
+
+	o.strata.push({'N': N, 'p': p, 'q': q, 'n' : n, 'x' : x});
+    }
+
+}
+
+
+</script>
+</head>
+<body>
+<input type="text" id ="antstrata" size="5" value="2"> &nbsp;
+<input type="button" id="knappstrata" value ="Antal strata"  onClick="antalstrata();return false;" >
+<input type="button" id="omstart" value ="Omstart"  onClick="omstart();return false;" disabled><p>
+
+
+z <input type="text" id ="z" size="5" value="99"> % (tex 95 %)<p> 
+d <input type="text" id ="d" size="5" value="2"> % (tex 2 %)<p> 
+
+<div id="strata"></div>
+<div id="strataresultat"></div>
+<div id="resultat"></div>
+<div id="slutresultat"></div>
+
+</body>
+</html>
