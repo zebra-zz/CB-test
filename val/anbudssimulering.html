@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang=sv>
+<head>
+<meta charset=utf8>
+<title>Simulering av anbud</title>
+<script type="text/javascript">
+// Claes Björklund
+
+var w=window.document;
+var o={};
+
+function antalanbud () {
+    o.antanbud = w.getElementById('antanbud').value;
+o.antfråga=w.getElementById('antfrågor').value;
+//alert(o.antanbud);
+var str='<ul>';
+    for (var i=1; i <= o.antanbud; i++) {
+	str += "<li>Anbud " + i + "</li>";
+	str += "<li>Pris ";
+//	str += "<input type=\"text\" id=\"A" + i + "\" size=\"5\" value=\"5\">";
+	str += input({'id' : "A" + i,'size': 5});
+	str += "</li>";
+        str +=  "<ul>";
+	for (var k=1; k <= o.antfråga; k++) {
+	    str += "<li>Fråga " + k; 
+//	    str += "<input type=\"text\" id=\"F" + k + "," + i + "\" size=\"5\" value=\"5\">";
+//	    str += input({'id' : "F" + k + "," + i, 'size' : '5'});
+	    str += select({'id' : "F" + k + "," + i});
+	    str +="</li>"
+	}
+	str += "</ul>";
+    }
+    str +='</ul>';
+    str += "<input type=\"button\" id=\"Beäkna\" value =\"Beräkna \" onClick=\"hämta_data();visa();\"><p>";
+    w.getElementById('anbud').innerHTML=str;
+}
+
+function hämta_data() {
+    o.anbud=[];
+    Alista=[];
+    Plista=[];
+    o.v1 = w.getElementById('v1').value/100;
+    o.v2 = w.getElementById('v2').value/100;
+    if (o.v1 + o.v2!=1) { alert('SUMMA'); return 1 }
+    o.faktor = parseInt(w.getElementById('faktor').value);
+    for (var i=1; i <= o.antanbud; i++) {
+	var A = parseInt(w.getElementById('A' + i).value);
+	var fråga=[];
+	for (var k=1; k <= o.antfråga; k++) {
+	    console.log('F' + i + ',' + k);
+	    var F = parseInt(w.getElementById('F' + k + ',' + i ).value);
+//	    var F = parseInt(w.getElementById('F1,1').value);
+	    fråga.push(F);
+	}
+	console.log(fråga);
+       var P=0;
+       for (f in fråga) {
+	   P += fråga[f];
+       }
+       Alista.push(A);
+       Plista.push(P);
+	o.anbud.push({'Anbud':i, 'A': A,'P':P});
+
+   }
+    console.log(Plista);
+    o.HP=Math.max.apply(null,Plista);
+    o.LA=Math.min.apply(null,Alista);
+
+
+    for (i in o.anbud) {
+	var B = o.faktor*(o.v1*o.anbud[i].P/o.HP + o.v2*o.LA/o.anbud[i].A);
+	o.anbud[i].B=B;
+    }
+    console.log(o);
+
+}
+
+function visa() {
+    var lista=[];
+    for (i in o.anbud ) {
+	lista.push([o.anbud[i].Anbud,o.anbud[i].B,o.anbud[i].P,o.anbud[i].A]);
+    }
+    lista.sort(function(a, b) {return b[1] - a[1]})
+    var str='';
+    for (i in lista) {
+str +='<h3>Anbud '+ lista[i][0] + '</h3>';
+    str +='<ul>';
+	str += '<li> Betyg: ' + lista[i][1].toFixed(2) + ' </li> ';
+	str += '<li> Poäng: '  + lista[i][2] + ' </li> ';
+	str += '<li> Pris: ' + lista[i][3] + '</li>';
+    str +='</ul>';
+    }
+
+    w.getElementById('visa').innerHTML=str;
+}
+function input(a) {
+    id=a.id || 'a';
+    value=a.value || '5';
+    size=a.size || '5';
+
+    return "<input type=\"text\" id=\"" + id + "\" size=\"" + size + "\" value=\"" + value + "\">";
+}
+
+function select(a) {
+    var id=a.id || 'a';
+    var value=a.value || [0,5,10];
+var selected=a.selected || 5;
+
+
+   var str = "<select id=\"" + id + "\">";
+    for (i in value) {
+    var sel = '';
+	if (selected == value[i]) {
+	    sel = 'selected';
+	}
+	str += "<option value=\"" + value[i] +  "\"" + sel + " >" + value[i] + "</option>";
+    }
+   str += "</select>";
+    return str;
+}
+</script>
+</head>
+<body>
+<h2>Anbudssimulator</h2>
+    B = 5 &sdot; V1 &sdot; AP/HP + 5 &sdot; V2 &sdot; LA/AA
+<p>
+V1 <input type="text" id ="v1" size="5" value="60"> <p> 
+V2 <input type="text" id ="v2" size="5" value="40"> <p> 
+F <input type="text" id ="faktor" size="5" value="5"> <p> 
+Antal anbud<input type="text" id ="antanbud" size="5" value="3"> <p>
+Antal frågor <input type="text" id ="antfrågor" size="5" value="2"> &nbsp;
+<input type="button" id="knappstrata" value ="Antal anbud och frågor"  onClick="antalanbud();return false;" >
+
+<div id="anbud"></div>
+<div id="visa"></div>
+</body>
+</html>
