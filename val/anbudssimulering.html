@@ -41,7 +41,7 @@ function hämta_data() {
     Plista=[];
     o.v1 = w.getElementById('v1').value/100;
     o.v2 = w.getElementById('v2').value/100;
-    if (o.v1 + o.v2!=1) { alert('SUMMA'); return 1 }
+    if (o.v1 + o.v2!=1) { alert('Summan ska vara 100'); return 1 }
     o.faktor = parseInt(w.getElementById('faktor').value);
     for (var i=1; i <= o.antanbud; i++) {
 	var A = parseInt(w.getElementById('A' + i).value);
