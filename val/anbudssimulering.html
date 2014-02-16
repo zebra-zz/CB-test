@@ -81,7 +81,7 @@ function visa() {
 	lista.push([o.anbud[i].Anbud,o.anbud[i].B,o.anbud[i].P,o.anbud[i].A]);
     }
     lista.sort(function(a, b) {return b[1] - a[1]})
-    var str='';
+    var str="<ul><li>Högsta poäng " + o.HP + "</li><li>Lägsta pris " + o.LA + "</li></ul>";
     for (i in lista) {
 str +='<h3>Anbud '+ lista[i][0] + '</h3>';
     str +='<ul>';
@@ -124,7 +124,7 @@ var selected=a.selected || 5;
 <h2>Anbudssimulator</h2>
     B = F &sdot; V1 &sdot; AP/HP + F &sdot; V2 &sdot; LA/AA
 <p>
-Formeln ovan sätter betyg (B) på varje anbud den som får högst betyg vinner upphandlingen. V1,V2 är vikter F ä en faktor som sätts till 5, AP är aktuell poäng respektive anbud, HP är det högsta poängen av anbuden, LA är lägsta priset och AA är aktuellt pris för anbudet. Nedan kan man göra en simulering av ett antal anbud beräkningen visar en sortead lista av anbuden där det anbud som har högst betyg kommer först. 
+Formeln ovan sätter betyg (B) på varje anbud den som får högst betyg vinner upphandlingen. V1,V2 är vikter F ä en faktor som sätts till 5, AP är aktuell poäng respektive anbud, HP är det högsta poängen av anbuden, LA är lägsta priset och AA är aktuellt pris för anbudet. Nedan kan man göra en simulering av ett antal anbud beräkningen visar en sorterad lista av anbuden där det anbud som har högst betyg kommer först. 
  
 <p>
 V1 <input type="text" id ="v1" size="2" value="60"> <p> 
