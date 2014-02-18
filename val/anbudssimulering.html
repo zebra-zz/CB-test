@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang=sv>
 <head>
-<meta charset=utf8>
+<meta charset="utf8" />
 <title>Simulering av anbud</title>
 <script type="text/javascript">
 // Claes Björklund
@@ -22,7 +22,7 @@ var str='<ul>';
 	str += "</li>";
         str +=  "<ul>";
 	for (var k=1; k <= o.antfråga; k++) {
-	    str += "<li>Fråga " + k; 
+	    str += "<li>Fråga " + k + " "; 
 //	    str += "<input type=\"text\" id=\"F" + k + "," + i + "\" size=\"5\" value=\"5\">";
 //	    str += input({'id' : "F" + k + "," + i, 'size' : '5'});
 	    str += select({'id' : "F" + k + "," + i});
@@ -31,7 +31,7 @@ var str='<ul>';
 	str += "</ul>";
     }
     str +='</ul>';
-    str += "<input type=\"button\" id=\"Beäkna\" value =\"Beräkna \" onClick=\"hämta_data();visa();\"><p>";
+    str += "<input type=\"button\" id=\"Beräkna\" value =\"Beräkna \" onClick=\"hämta_data();visa();\"><p>";
     w.getElementById('anbud').innerHTML=str;
 }
 
@@ -124,7 +124,7 @@ var selected=a.selected || 5;
 <h2>Anbudssimulator</h2>
     B = F &sdot; V1 &sdot; AP/HP + F &sdot; V2 &sdot; LA/AA
 <p>
-Formeln ovan sätter betyg (B) på varje anbud den som får högst betyg vinner upphandlingen. V1,V2 är vikter F ä en faktor som sätts till 5, AP är aktuell poäng respektive anbud, HP är det högsta poängen av anbuden, LA är lägsta priset och AA är aktuellt pris för anbudet. Nedan kan man göra en simulering av ett antal anbud beräkningen visar en sorterad lista av anbuden där det anbud som har högst betyg kommer först. 
+Formeln ovan sätter betyg (B) på varje anbud den som får högst betyg vinner upphandlingen. V1,V2 är vikter F är en faktor som sätts till 5, AP är aktuell poäng respektive anbud, HP är det högsta poängen av anbuden, LA är lägsta priset och AA är aktuellt pris för anbudet. Nedan kan man göra en simulering av ett antal anbud beräkningen visar en sorterad lista av anbuden där det anbud som har högst betyg kommer först. 
  
 <p>
 V1 <input type="text" id ="v1" size="2" value="60"> <p> 
