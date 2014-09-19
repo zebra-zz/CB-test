@@ -118,7 +118,7 @@ document.getElementById("input").valtyp.value=d.valtyp;
 
 </script>
 </head>
-    <body onload="hämta('fil.txt')">
+    <body onload="hämta('riksdag2014.txt')">
 
     <a href="" onclick="hämta('fil.txt');nolla(); return false;">Exempel1</a>
     <a href="" onclick="hämta('fil2.txt');nolla(); return false;">Exempel2</a>
@@ -142,13 +142,12 @@ document.getElementById("input").valtyp.value=d.valtyp;
 <p>
 <input type="text" name="totled" size="3" maxlength="4"><p>
 
-<p>Totalt antal fasta mandat
-<p>
-<input type="text" name="totfast" size="3" maxlength="4"><p>
-Röstberättigade<p>
+<!--<p>Totalt antal fasta mandat<p>-->
+<input type="hidden" name="totfast" size="3" maxlength="4">
+<p>Röstberättigade<p>
 <textarea name="roster" rows="5" cols="50"></textarea><p>
 <input type="checkbox" name='berfast' id ="bfast"> Beräkna fastamandat <p>
-<input type="checkbox" name='berfastudda' id ="ufast"> Beräkna fastamandat uddatals metoden (endast riksdag)<p>
+<!--<input type="checkbox" name='berfastudda' id ="ufast"> Beräkna fastamandat uddatals metoden (endast riksdag)<p>-->
 Fasta mandat<p>
 <textarea name="fastamandat" rows="5" cols="50"></textarea><p>
 Rösttal<P>
